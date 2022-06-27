@@ -3,6 +3,7 @@
 
 import React from "react";
 import {Switch, Route} from "react-router-dom";
+import Login from "../pages/login/login";
 import HomePage from "../pages/homepage/homePage";
 import AppSettingsPage from "../pages/appSettings/appSettingsPage";
 import TrainPage from "../pages/train/trainPage";
@@ -24,7 +25,8 @@ export function MainContentRouter() {
     return (
         <div className="app-content text-light">
             <Switch>
-                <Route path="/test" exact component={EditorPage} />
+                <Route path="/" exact component={Login} />
+                 <Route path="/home" exact component={EditorPage} />
                 <Route path="/settings" component={AppSettingsPage} />
                 <Route path="/connections/:connectionId" component={ConnectionPage} />
                 <Route path="/connections" exact component={ConnectionPage} />
