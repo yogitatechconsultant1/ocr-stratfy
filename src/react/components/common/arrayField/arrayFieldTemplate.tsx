@@ -8,11 +8,10 @@ import { strings } from "../../../../common/strings";
 import { getPrimaryBlueTheme, getPrimaryGreenTheme } from "../../../../common/themes";
 
 export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
-    const [focusFlag, setFocusFlag] = useState(false);
-
+    const [focusFlag, setFocusFlag] = useState(true);
     useEffect(() => {
         if (focusFlag) {
-            document.getElementById("addSecurityToken").focus();
+            document.getElementById("addSecurityToken").click();
             setFocusFlag(false);
         }
     }, [focusFlag]);
@@ -20,14 +19,14 @@ export function ArrayFieldTemplate(props: ArrayFieldTemplateProps) {
     return (
         <div>
             {props.canAdd &&
-                <div className="array-field-toolbar my-3">
+                <div className="array-field-toolbar my-3" style={{display:"none"}}>
                     <PrimaryButton
                         theme={getPrimaryBlueTheme()}
                         type="button"
                         className=""
                         id="addSecurityToken"
                         autoFocus={true}
-                        onClick={props.onAddClick}>
+                        onClick={(e) => {console.log(e); props.onAddClick(e)}}>
                         <FontIcon iconName = "AddTo" className="mr-2" />
                         Add {props.schema.title}
                     </PrimaryButton>

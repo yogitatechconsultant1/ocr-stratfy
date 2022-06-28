@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
  * @member appTitleActions - Application Title actions
  */
 export interface IAppSettingsProps extends RouteComponentProps, React.Props<AppSettingsPage> {
-    appSettings: ILoginSettings;
+    loginSettings: ILoginSettings;
     actions: IApplicationActions;
     appTitleActions: IAppTitleActions;
 }
@@ -66,15 +66,16 @@ export default class AppSettingsPage extends React.Component<IAppSettingsProps> 
         return (
             <div className="app-settings-page skipToMainContent" id="pageAppSettings">
                 <AppSettingsForm
-                    appSettings={this.props.appSettings}
+                    loginSettings={this.props.loginSettings}
                     onSubmit={this.onFormSubmit}
                     onCancel={this.onFormCancel} />
             </div>
         );
     }
 
-    private async onFormSubmit(appSettings: ILoginSettings) {
-        await this.props.actions.saveAppSettings(appSettings);
+    private async onFormSubmit(loginSettings: ILoginSettings) {
+        console.log('i am here')
+        // await this.props.actions.saveAppSettings(loginSettings);
         toast.success(strings.login.messages.saveSuccess);
         this.props.history.goBack();
     }

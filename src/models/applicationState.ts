@@ -72,7 +72,7 @@ export interface IAppSettings {
 }
 
 export interface ILoginSettings {
-    securityTokens: ISecurityToken[],
+    loginCredentials: ILoginCredentials,
     thumbnailSize?: ISize,
     hideUploadingOption?: boolean;
 }
@@ -331,6 +331,10 @@ export interface ISecureString {
 export interface ISecurityToken {
     name: string,
     key: string,
+}
+export interface ILoginCredentials {
+    username: string,
+    password: string,
 }
 
 export interface IField {

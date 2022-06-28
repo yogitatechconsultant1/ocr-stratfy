@@ -8,7 +8,7 @@ import Form, { FormValidation } from "react-jsonschema-form";
 import { ObjectFieldTemplate } from "../../common/objectField/objectFieldTemplate";
 import CustomFieldTemplate from "../../common/customField/customFieldTemplate";
 import { ArrayFieldTemplate } from "../../common/arrayField/arrayFieldTemplate";
-import { IAppSettings } from "../../../../models/applicationState";
+import { ILoginSettings } from "../../../../models/applicationState";
 import { ProtectedInput } from "../../common/protectedInput/protectedInput";
 import { CustomField } from "../../common/customField/customField";
 import { generateKey } from "../../../../common/crypto";
@@ -20,8 +20,8 @@ const formSchema = addLocValues(require("./appSettingsForm.json"));
 const uiSchema = addLocValues(require("./appSettingsForm.ui.json"));
 
 export interface IAppSettingsFormProps extends React.Props<AppSettingsForm> {
-    appSettings: IAppSettings;
-    onSubmit: (appSettings: IAppSettings) => void;
+    loginSettings: ILoginSettings;
+    onSubmit: (loginSettings: ILoginSettings) => void;
     onCancel?: () => void;
 }
 
@@ -29,7 +29,7 @@ export interface IAppSettingsFormState {
     classNames: string[];
     formSchema: any;
     uiSchema: any;
-    appSettings: IAppSettings;
+    loginSettings: ILoginSettings;
 }
 
 export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IAppSettingsFormState> {
@@ -47,7 +47,7 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
         this.state = {
             formSchema: { ...formSchema },
             uiSchema: { ...uiSchema },
-            appSettings: { ...this.props.appSettings },
+            loginSettings: { ...this.props.loginSettings },
             classNames: ["needs-validation"],
         };
 
@@ -56,9 +56,9 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
     }
 
     public componentDidUpdate(prevProps: IAppSettingsFormProps) {
-        if (prevProps.appSettings !== this.props.appSettings) {
+        if (prevProps.loginSettings !== this.props.loginSettings) {
             this.setState({
-                appSettings: { ...this.props.appSettings },
+                loginSettings: { ...this.props.loginSettings },
             });
         }
     }
@@ -83,14 +83,14 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
                         validate={this.onFormValidate}
                         schema={this.state.formSchema}
                         uiSchema={this.state.uiSchema}
-                        formData={this.state.appSettings}
+                        formData={this.state.loginSettings}
                         onSubmit={(form) => this.props.onSubmit(form.formData)}>
                         <div>
                             <PrimaryButton
                                 theme={getPrimaryGreenTheme()}
                                 className="mr-2"
                                 type="submit">
-                                {strings.appSettings.save}
+                                {strings.login.save}
                             </PrimaryButton>
                             <PrimaryButton
                                 theme={getPrimaryGreyTheme()}
@@ -105,26 +105,27 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
         );
     }
 
-    private onFormValidate(appSettings: IAppSettings, errors: FormValidation) {
+    private onFormValidate(loginSettings: ILoginSettings, errors: FormValidation) {
         const tokensMap = {};
-        appSettings.securityTokens.forEach((token, index) => {
-            if (!token.name) {
-                return;
-            }
-            const tokenName = token.name;  // not trimmed because user's might already have non trimmed token names
-            if (tokensMap[tokenName] !== undefined) {
-                const initialSecurityTokenErrorName = errors.securityTokens[tokensMap[tokenName]].name;
-                const duplicateSecurityTokenErrorName = errors.securityTokens[index.toString()].name
-                if (duplicateSecurityTokenErrorName) {
-                    duplicateSecurityTokenErrorName.addError(strings.appSettings.securityToken.duplicateNameErrorMessage);
-                }
-                if (initialSecurityTokenErrorName.__errors.length === 0) {
-                    initialSecurityTokenErrorName.addError(strings.appSettings.securityToken.duplicateNameErrorMessage);
-                }
-            } else {
-                tokensMap[tokenName] = index;
-            }
-        });
+        console.log('loginSettings',loginSettings)
+        // loginSettings.loginCredentials.forEach((token, index) => {
+        //     if (!token.name) {
+        //         return;
+        //     }
+        //     const tokenName = token.name;  // not trimmed because user's might already have non trimmed token names
+        //     if (tokensMap[tokenName] !== undefined) {
+        //         const initialSecurityTokenErrorName = errors.securityTokens[tokensMap[tokenName]].name;
+        //         const duplicateSecurityTokenErrorName = errors.securityTokens[index.toString()].name
+        //         if (duplicateSecurityTokenErrorName) {
+        //             duplicateSecurityTokenErrorName.addError(strings.loginSettings.securityToken.duplicateNameErrorMessage);
+        //         }
+        //         if (initialSecurityTokenErrorName.__errors.length === 0) {
+        //             initialSecurityTokenErrorName.addError(strings.loginSettings.securityToken.duplicateNameErrorMessage);
+        //         }
+        //     } else {
+        //         tokensMap[tokenName] = index;
+        //     }
+        // });
 
         if (this.state.classNames.indexOf("was-validated") === -1) {
             this.setState({
