@@ -3,7 +3,7 @@
 
 import React from "react";
 import {Switch, Route} from "react-router-dom";
-import Login from "../pages/login/login";
+import Login from "../pages/login/appSettingsPage";
 import HomePage from "../pages/homepage/homePage";
 import AppSettingsPage from "../pages/appSettings/appSettingsPage";
 import TrainPage from "../pages/train/trainPage";

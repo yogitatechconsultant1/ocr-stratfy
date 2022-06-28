@@ -109,6 +109,40 @@ export interface IAppStrings {
             saveSuccess: string,
         },
     };
+    login: {
+    title: string,
+    storageTitle: string,
+    uiHelp: string,
+    save: string,
+    loginFormFields: {
+        username: {
+            title: string,
+        },
+        password: {
+            title: string,
+        },
+        duplicateNameErrorMessage: string,
+    },
+    loginCredentials: {
+        title: string,
+        description: string,
+    },
+    version: {
+        description: string,
+    },
+    commit: string,
+    devTools: {
+        description: string,
+        button: string,
+    },
+    reload: {
+        description: string,
+        button: string,
+    },
+    messages: {
+        saveSuccess: string,
+    },
+    };
     projectSettings: {
         title: string,
         securityToken: {

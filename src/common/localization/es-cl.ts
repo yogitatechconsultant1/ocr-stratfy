@@ -110,6 +110,40 @@ export const spanish: IAppStrings = {
             saveSuccess: "Configuración de la aplicación guardada correctamente",
         },
     },
+          login: {
+        title: "Application Login",
+        storageTitle: "Credentials",
+        uiHelp: "Enter credentials to login",
+        save: "Login",
+        loginFormFields: {
+            username: {
+                title: "Username",
+            },
+            password: {
+                title: "Password",
+            },
+            duplicateNameErrorMessage: "Token name must be unique for all tokens",
+        },
+       loginCredentials: {
+            title: "Login Form",
+            description: "Enter valid credentials",
+        },
+        version: {
+            description: "Version:",
+        },
+        commit: "Commit SHA",
+        devTools: {
+            description: "Open application developer tools to help diagnose issues",
+            button: "Toggle Developer Tools",
+        },
+        reload: {
+            description: "Reload the app discarding all current changes",
+            button: "Refresh Application",
+        },
+        messages: {
+            saveSuccess: "Successfully logged in",
+        },
+    },
     projectSettings: {
         title: "Configuración de Proyecto",
         securityToken: {

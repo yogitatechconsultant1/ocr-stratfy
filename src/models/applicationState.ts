@@ -71,6 +71,11 @@ export interface IAppSettings {
     hideUploadingOption?: boolean;
 }
 
+export interface ILoginSettings {
+    securityTokens: ISecurityToken[],
+    thumbnailSize?: ISize,
+    hideUploadingOption?: boolean;
+}
 /**
  * @name - Project
  * @description - Defines the structure of a tagging project
