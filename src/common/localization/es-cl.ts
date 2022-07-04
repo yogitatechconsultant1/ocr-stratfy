@@ -181,7 +181,7 @@ export const spanish: IAppStrings = {
         backEndNotAvailable: "La función de casilla de verificación funcionará en la versión futura del servicio de reconocimiento de formularios, manténgase atento.",
         addName: "Agregar nombre de modelo ...",
         downloadJson: "Descargar archivo JSON",
-        uploadButtonLabel: "Upload",
+        uploadButtonLabel: "Upload Document",
         trainConfirm: {
             title: "Etiquetas aún no revisadas",
             message: "Hay archivos recién etiquetados automáticamente aún no revisados por usted, ¿quiere entrenar con esos archivos?"

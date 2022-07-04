@@ -92,12 +92,12 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
                                 type="submit">
                                 {strings.login.save}
                             </PrimaryButton>
-                            <PrimaryButton
+                            {/* <PrimaryButton
                                 theme={getPrimaryGreyTheme()}
                                 type="button"
                                 onClick={this.onFormCancel}>
                                 {strings.common.cancel}
-                            </PrimaryButton>
+                            </PrimaryButton> */}
                         </div>
                     </Form>
                 </div>

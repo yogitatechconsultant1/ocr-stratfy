@@ -15,7 +15,7 @@
     "private": true,
     "main": "build/main.js",
     "dependencies": {
-        "@azure/storage-blob": "12.1.2",
+        "@azure/storage-blob": "^12.1.2",
         "@fluentui/react": "^7.117.2",
         "@microsoft/applicationinsights-react-js": "^3.0.1",
         "@microsoft/applicationinsights-web": "^2.5.6",
@@ -49,6 +49,7 @@
         "rimraf": "^3.0.2",
         "serialize-javascript": "^5.0.1",
         "shortid": "^2.2.15",
+        "universal-cookie": "^4.0.4",
         "utif": "^3.1.0",
         "vott-react": "^0.2.12"
     },
@@ -115,6 +116,7 @@
         "node-forge": "^0.10.0",
         "node-sass": "^4.14.1",
         "pdfjs-dist": "^2.9.359",
+        "react-dropzone": "^14.2.1",
         "react-scripts": "3.4.1",
         "redux-immutable-state-invariant": "^2.1.0",
         "redux-logger": "^3.0.6",

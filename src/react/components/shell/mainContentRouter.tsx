@@ -9,6 +9,7 @@ import AppSettingsPage from "../pages/appSettings/appSettingsPage";
 import TrainPage from "../pages/train/trainPage";
 import ConnectionPage from "../pages/connections/connectionsPage";
 import EditorPage from "../pages/editorPage/editorPage";
+import UploadFile from "../pages/uploadFile";
 import ProjectSettingsPage from "../pages/projectSettings/projectSettingsPage";
 import ModelComposePage from "../pages/modelCompose/modelCompose";
 import {PredictPageRoute} from './preditcPageRoute';
@@ -26,7 +27,8 @@ export function MainContentRouter() {
         <div className="app-content text-light">
             <Switch>
                 <Route path="/" exact component={Login} />
-                 <Route path="/home" exact component={EditorPage} />
+                 <Route path="/uploadFile" exact component={UploadFile} />
+                 <Route path="/ocr" exact component={EditorPage} />
                 <Route path="/settings" component={AppSettingsPage} />
                 <Route path="/connections/:connectionId" component={ConnectionPage} />
                 <Route path="/connections" exact component={ConnectionPage} />

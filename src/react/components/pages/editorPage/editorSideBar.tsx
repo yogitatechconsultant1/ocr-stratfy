@@ -3,7 +3,7 @@
 
 import React from "react";
 import { AutoSizer, List } from "react-virtualized";
-import { FontIcon } from "@fluentui/react";
+import { FontIcon,PrimaryButton } from "@fluentui/react";
 import { IAsset, AssetState, ISize, AssetLabelingState, IProject } from "../../../../models/applicationState";
 import { AssetPreview, ContentSource } from "../../common/assetPreview/assetPreview";
 import { strings } from "../../../../common/strings";
@@ -12,6 +12,7 @@ import TrainButton from "./trainButton";
 import IProjectActions from "../../../../redux/actions/projectActions";
 import UploadButton from "./uploadFileButton";
 import { RouteComponentProps } from "react-router-dom";
+import { getPrimaryGreenTheme } from "../../../../common/themes";
 
 /**
  * Properties for Editor Side Bar
@@ -61,12 +62,18 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
         return (
             <div className="editor-page-sidebar-nav">
                 <TrainButton project={this.props.project} actions={this.props.actions} />
-                {/* <UploadButton
-                    project={this.props.project}
-                    actions={this.props.actions}
-                    history={this.props.history}
-                    loadProjectAssets={this.props.loadProjectAssets}
-                    /> */}
+              <PrimaryButton
+                    // style={{ "margin": "15px 0px" }}
+                    id="train_trainButton"
+                    theme={getPrimaryGreenTheme()}
+                    autoFocus={true}
+                    className="flex-center"
+                    onClick={() => this.props.history.push("/uploadFile")}
+                >
+                    <FontIcon iconName="Upload" />
+                    <h6 className="d-inline text-shadow-none mb-0">
+                        {strings.train.uploadButtonLabel} </h6>
+                </PrimaryButton>
                 <AutoSizer>
                     {({ height, width }) => (
                         <List

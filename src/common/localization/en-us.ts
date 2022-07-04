@@ -181,7 +181,7 @@ export const english: IAppStrings = {
         backEndNotAvailable: "Checkbox feature will work in future version of Form Recognizer service, please stay tuned.",
         addName: "Add a model name...",
         downloadJson: "Download JSON file",
-        uploadButtonLabel: "Upload",
+        uploadButtonLabel: "Upload Document",
         trainConfirm: {
             title: "Labels not revised yet",
             message: "There are newly auto-labeled files not yet revised by you, do you want to train with those files?"

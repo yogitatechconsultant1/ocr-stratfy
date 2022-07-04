@@ -73,11 +73,42 @@ export default class AppSettingsPage extends React.Component<IAppSettingsProps> 
         );
     }
 
-    private async onFormSubmit(loginSettings: ILoginSettings) {
-        console.log('i am here')
+    private async onFormSubmit(loginSettings: any) {
+        
+       
+        const {username, password} = loginSettings.loginFields[0];
+       
+        const requestOptions = {
+        method: 'POST',
+        headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                },
+        body: JSON.stringify({ username,password },)
+    };
+
+        fetch('http://52.88.170.55/Invoices/ocrLogin.json', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log('data',data);
+            if(data.status === 0){
+                console.log('toast',toast)
+                 toast.error('You are not authorized!!');
+            }
+             if(data.status === 1){
+                toast.success(strings.login.messages.saveSuccess);
+                this.props.history.push('/ocr')
+            }
+        }
+          
+        ).catch((error) => {
+            console.log(error);
+            toast.error("Something went wrong please try again later.");
+        });
+
         // await this.props.actions.saveAppSettings(loginSettings);
-        toast.success(strings.login.messages.saveSuccess);
-        this.props.history.goBack();
+        
+        // this.props.history.goBack();
     }
 
     private onFormCancel() {
