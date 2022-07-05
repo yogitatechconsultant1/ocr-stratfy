@@ -53,7 +53,7 @@ const UploadFile: FC<Props> = () => {
         body: JSON.stringify({ client_id:1,file_url:uploadedFile },)
     };
 
-        fetch('http://52.88.170.55/Invoices/ocrUploadFile.json', requestOptions)
+        fetch('https://dashboard.stratafyconnect.com/Invoices/ocrUploadFile.json', requestOptions)
         .then(response => response.json())
         .then(data => {
             console.log('data',data);

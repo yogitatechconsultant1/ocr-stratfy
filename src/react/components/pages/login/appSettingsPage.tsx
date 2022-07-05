@@ -78,16 +78,20 @@ export default class AppSettingsPage extends React.Component<IAppSettingsProps> 
        
         const {username, password} = loginSettings.loginFields[0];
        
-        const requestOptions = {
+        const requestOptions:any = {
         method: 'POST',
         headers: { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
                 },
+        referrer: "about:client", // "" for no-referrer, or an url from the current origin
+        referrerPolicy: "no-referrer", // no-referrer, origin, same-origin...
+        mode: "cors", // same-origin, no-cors
+        credentials: "same-origin", // omit, include
         body: JSON.stringify({ username,password },)
     };
 
-        fetch('http://52.88.170.55/Invoices/ocrLogin.json', requestOptions)
+        fetch('https://dashboard.stratafyconnect.com/Invoices/ocrLogin.json', requestOptions)
         .then(response => response.json())
         .then(data => {
             console.log('data',data);

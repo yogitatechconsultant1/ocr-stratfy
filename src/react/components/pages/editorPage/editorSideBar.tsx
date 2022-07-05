@@ -4,6 +4,7 @@
 import React from "react";
 import { AutoSizer, List } from "react-virtualized";
 import { FontIcon,PrimaryButton } from "@fluentui/react";
+import { useHistory } from "react-router-dom";
 import { IAsset, AssetState, ISize, AssetLabelingState, IProject } from "../../../../models/applicationState";
 import { AssetPreview, ContentSource } from "../../common/assetPreview/assetPreview";
 import { strings } from "../../../../common/strings";
@@ -13,6 +14,7 @@ import IProjectActions from "../../../../redux/actions/projectActions";
 import UploadButton from "./uploadFileButton";
 import { RouteComponentProps } from "react-router-dom";
 import { getPrimaryGreenTheme } from "../../../../common/themes";
+
 
 /**
  * Properties for Editor Side Bar
