@@ -5,6 +5,7 @@ import { Action, Dispatch } from "redux";
 import ProjectService from "../../services/projectService";
 import { ActionTypes } from "./actionTypes";
 import { AssetService } from "../../services/assetService";
+import cookie from 'react-cookies';
 import {
     AppError,
     ErrorCode,
@@ -246,6 +247,15 @@ export function deleteAsset(project: IProject, assetMetadata: IAssetMetadata): (
  */
 export function loadAssets(project: IProject): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
     return async (dispatch: Dispatch, getState: () => IApplicationState) => {
+        const client_id = cookie.load('client_id');
+        const response = await fetch(`https://dashboard.stratafyconnect.com/Invoices/ocrGetUploadFiles.json?client_id=${client_id}`);
+        const data = await response.json();
+        console.log('data',data.data)
+        const filteredData = data.data.map((obj)=>{
+            console.log('obj',obj);
+            return obj.file_url;
+        });
+
         const assetService = new AssetService(project);
         const assets = await assetService.getAssets();
         let shouldAssetsUpdate = false;
@@ -262,7 +272,15 @@ export function loadAssets(project: IProject): (dispatch: Dispatch, getState: ()
             const { currentProject } = getState();
             await AssetService.checkAndUpdateSchema(currentProject);
         }
-        return assets;
+        const returnData:any = [];
+        if(filteredData.length>0){
+        assets.map((asset) => {
+            if(filteredData.includes(asset.name)){
+                returnData.push(asset);
+            }
+        });
+        }
+        return returnData;
     };
 }
 

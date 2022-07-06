@@ -187,6 +187,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
 
     public async componentDidUpdate(prevProps: Readonly<IEditorPageProps>) {
         if (this.props.project) {
+           
             if (this.state.assets.length === 0) {
                 await this.loadProjectAssets();
             } else {
@@ -960,7 +961,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
             }
 
             const lastVisited = assets.find((asset) => asset.id === this.props.project.lastVisitedAssetId);
-
+            console.log('assets',assets);
             this.setState({
                 assets,
             }, async () => {

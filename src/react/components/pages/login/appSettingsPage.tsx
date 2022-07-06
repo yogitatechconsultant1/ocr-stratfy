@@ -12,6 +12,7 @@ import { strings } from "../../../../common/strings";
 import { AppSettingsForm } from "./appSettingsForm";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
+import cookie from 'react-cookies';
 
 /**
  * Props for App Settings Page
@@ -100,8 +101,10 @@ export default class AppSettingsPage extends React.Component<IAppSettingsProps> 
                  toast.error('You are not authorized!!');
             }
              if(data.status === 1){
+                 console.log('client_id',data.client_id)
+                cookie.save('client_id', data.client_id, { path: '/' });
                 toast.success(strings.login.messages.saveSuccess);
-                this.props.history.push('/ocr')
+                this.props.history.push('/ocr');
             }
         }
           

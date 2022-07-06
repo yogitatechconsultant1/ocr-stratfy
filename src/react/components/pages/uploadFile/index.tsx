@@ -7,7 +7,8 @@ import {useDropzone} from 'react-dropzone'
 import { FontIcon,PrimaryButton } from "@fluentui/react";
 import { getPrimaryGreenTheme } from "../../../../common/themes";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-const sasToken = process.env.storagesastoken || "?sp=racwdli&st=2022-06-30T10:27:17Z&se=2022-06-30T18:27:17Z&sv=2021-06-08&sr=c&sig=D81yN6Lbyzd7RykDbJy7nyhgRoNhV4PvLtEJeXVgAdg%3D";
+import cookie from 'react-cookies';
+const sasToken = process.env.storagesastoken || "?sp=racwdli&st=2022-07-06T17:43:57Z&se=2023-01-01T01:43:57Z&spr=https&sv=2021-06-08&sr=c&sig=HzRU7WDlxq02jMR4K%2FOIlX94sSHtrxODgLPrns4RJzA%3D";
 const containerName = `test`;
 const storageAccountName = process.env.storageresourcename || "stratfy01";
 
@@ -44,13 +45,19 @@ const UploadFile: FC<Props> = () => {
     }
     };
     const saveFileToDatabase = async(uploadedFile:string) =>{
-                const requestOptions = {
+        const client_id = cookie.load('client_id');
+        if(!client_id){
+            toast.error('Kindly log in and try again!!');
+            history.push('/');
+            return;
+        }
+        const requestOptions = {
         method: 'POST',
         headers: { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
                 },
-        body: JSON.stringify({ client_id:1,file_url:uploadedFile },)
+        body: JSON.stringify({ client_id:parseInt(client_id),file_url:uploadedFile },)
     };
 
         fetch('https://dashboard.stratafyconnect.com/Invoices/ocrUploadFile.json', requestOptions)
