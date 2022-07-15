@@ -17,24 +17,24 @@ enum Categories {
 /** Properties for tag input toolbar */
 export interface ITagInputToolbarProps {
     /** Currently selected tag */
-    selectedTag: ITag;
+    selectedTag?: ITag;
     /** Function to call when add tags button is clicked */
     onAddTags: () => void;
 
     setTagInputMode?: (tagInputMode: TagInputMode, selectedTableTagToLabel?: ITableTag, selectedTableTagBody?: ITableRegion[][][]) => void;
     /** Function to call when search tags button is clicked */
-    onSearchTags: () => void;
+    onSearchTags?: () => void;
     /** Function to call when lock tags button is clicked */
-    onLockTag: (tag: ITag) => void;
+    onLockTag?: (tag: ITag) => void;
     /** Function to call when edit tag button is clicked */
-    onRenameTag: (tag: ITag) => void;
+    onRenameTag?: (tag: ITag) => void;
     /** Function to call when delete button is clicked */
-    onDelete: (tag: ITag) => void;
+    onDelete?: (tag: ITag) => void;
     /** Function to call when one of the re-order buttons is clicked */
-    onReorder: (tag: ITag, displacement: number) => void;
-    onOnlyCurrentPageTags: (onlyCurrentPageTags: boolean) => void;
+    onReorder?: (tag: ITag, displacement: number) => void;
+    onOnlyCurrentPageTags?: (onlyCurrentPageTags: boolean) => void;
     onShowOriginLabels?: (showOrigin: boolean) => void;
-    searchingTags: boolean;
+    searchingTags?: boolean;
 }
 
 interface ITagInputToolbarItemProps {
@@ -72,12 +72,12 @@ export default class TagInputToolbar extends React.Component<ITagInputToolbarPro
                 category: Categories.General,
                 handler: this.handleAdd,
             },
-            {
-                displayName: strings.tags.toolbar.addTable,
-                icon: "AddTable",
-                category: Categories.General,
-                handler: this.handleAddTable,
-            },
+            // {
+            //     displayName: strings.tags.toolbar.addTable,
+            //     icon: "AddTable",
+            //     category: Categories.General,
+            //     handler: this.handleAddTable,
+            // },
             {
                 displayName: `${strings.tags.toolbar.vertiline}-1`,
                 category: Categories.Separator,
@@ -88,12 +88,12 @@ export default class TagInputToolbar extends React.Component<ITagInputToolbarPro
                 category: Categories.General,
                 handler: this.handleOnlyCurrentPageTags,
             },
-            {
-                displayName: this.state.showOriginLabels ? strings.tags.toolbar.hideOriginLabels : strings.tags.toolbar.showOriginLabels,
-                icon: this.state.showOriginLabels ? "GroupList" : "GroupedList",
-                category: Categories.General,
-                handler: this.handleShowOriginLabels,
-            },
+            // {
+            //     displayName: this.state.showOriginLabels ? strings.tags.toolbar.hideOriginLabels : strings.tags.toolbar.showOriginLabels,
+            //     icon: this.state.showOriginLabels ? "GroupList" : "GroupedList",
+            //     category: Categories.General,
+            //     handler: this.handleShowOriginLabels,
+            // },
             {
                 displayName: strings.tags.toolbar.search,
                 icon: "Search",

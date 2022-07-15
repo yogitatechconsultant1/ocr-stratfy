@@ -59,7 +59,7 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
     private listRef: React.RefObject<List> = React.createRef();
 
     public render() {
-        const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
+        // const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
 
         return (
             <div className="editor-page-sidebar-nav">
@@ -83,8 +83,8 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
                             className="asset-list"
                             height={height}
                             width={width}
-                            rowCount={visitedAssets.length}
-                            // rowCount={this.props.assets.length}
+                            // rowCount={visitedAssets.length}
+                            rowCount={this.props.assets.length}
                             rowHeight={() => this.getRowHeight(width)}
                             rowRenderer={this.rowRenderer}
                             overscanRowCount={10}
@@ -137,9 +137,9 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
     }
 
     private rowRenderer = ({ key, index, style }): JSX.Element => {
-        const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
-        // const asset = this.props.assets[index];
-        const asset = visitedAssets[index];
+        // const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
+        const asset = this.props.assets[index];
+        // const asset = visitedAssets[index];
         const selectedAsset = this.props.selectedAsset;
 
         return (

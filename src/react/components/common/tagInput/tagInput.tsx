@@ -211,23 +211,23 @@ export class TagInput extends React.Component<ITagInputProps, ITagInputState> {
             return (
                 <div className="tag-input">
                     <div ref={this.headerRef} className="tag-input-header p-2">
-                        {/* <span className="tag-input-title">{strings.tags.title}</span>
+                        <span className="tag-input-title">{strings.tags.title}</span>
                         <TagInputToolbar
                             selectedTag={this.state.selectedTag}
                             onAddTags={() => this.setState({ addTags: !this.state.addTags })}
-                            onOnlyCurrentPageTags={() => this.setState({ onlyCurrentPageTags: !this.state.onlyCurrentPageTags })}
-                            onShowOriginLabels={(showOriginLabels: boolean) => this.setState({ showOriginLabels })}
+                            // onOnlyCurrentPageTags={() => this.setState({ onlyCurrentPageTags: !this.state.onlyCurrentPageTags })}
+                            // onShowOriginLabels={(showOriginLabels: boolean) => this.setState({ showOriginLabels })}
                             onSearchTags={() => this.setState({
                                 searchTags: !this.state.searchTags,
                                 searchQuery: "",
                             })}
                             searchingTags={this.state.searchQuery.length > 0}
-                            onRenameTag={this.onRenameTag}
-                            onLockTag={this.onLockTag}
+                            // onRenameTag={this.onRenameTag}
+                            // onLockTag={this.onLockTag}
                             onDelete={this.onDeleteTag}
                             onReorder={this.onReOrder}
                             setTagInputMode={this.props.setTagInputMode}
-                        /> */}
+                        />
                     </div>
                     {this.props.tagsLoaded ?
                         <div className="tag-input-body-container">
@@ -249,7 +249,7 @@ export class TagInput extends React.Component<ITagInputProps, ITagInputState> {
                                 }
                                 <div className="tag-input-items">
                                     {this.renderTagItems()}
-                                    {/* <Customizer {...dark}>
+                                    <Customizer {...dark}>
                                         {
                                             tagOperation === TagOperationMode.ContextualMenu && selectedTagRef &&
                                             <ContextualMenu
@@ -259,7 +259,7 @@ export class TagInput extends React.Component<ITagInputProps, ITagInputState> {
                                                 onDismiss={this.onHideContextualMenu}
                                             />
                                         }
-                                    </Customizer> */}
+                                    </Customizer>
                                     {this.getColorPickerPortal()}
                                 </div>
                                 {
