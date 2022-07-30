@@ -222,7 +222,7 @@ export class TagInput extends React.Component<ITagInputProps, ITagInputState> {
                                 searchQuery: "",
                             })}
                             searchingTags={this.state.searchQuery.length > 0}
-                            // onRenameTag={this.onRenameTag}
+                             onRenameTag={this.onRenameTag}
                             // onLockTag={this.onLockTag}
                             onDelete={this.onDeleteTag}
                             onReorder={this.onReOrder}

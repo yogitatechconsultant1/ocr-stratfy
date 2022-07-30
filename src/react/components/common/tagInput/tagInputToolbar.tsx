@@ -66,12 +66,12 @@ export default class TagInputToolbar extends React.Component<ITagInputToolbarPro
 
     private getToolbarItems = (): ITagInputToolbarItemProps[] => {
         return [
-            {
-                displayName: strings.tags.toolbar.add,
-                icon: "Add",
-                category: Categories.General,
-                handler: this.handleAdd,
-            },
+            // {
+            //     displayName: strings.tags.toolbar.add,
+            //     icon: "Add",
+            //     category: Categories.General,
+            //     handler: this.handleAdd,
+            // },
             // {
             //     displayName: strings.tags.toolbar.addTable,
             //     icon: "AddTable",
@@ -122,12 +122,12 @@ export default class TagInputToolbar extends React.Component<ITagInputToolbarPro
                 category: Categories.MoveModifier,
                 handler: this.handleMoveDown,
             },
-            {
-                displayName: strings.tags.toolbar.delete,
-                icon: "Delete",
-                category: Categories.MoveModifier,
-                handler: this.handleDelete,
-            },
+            // {
+            //     displayName: strings.tags.toolbar.delete,
+            //     icon: "Delete",
+            //     category: Categories.MoveModifier,
+            //     handler: this.handleDelete,
+            // },
         ];
     }
 
