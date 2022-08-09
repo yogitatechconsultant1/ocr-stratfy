@@ -46,6 +46,7 @@ export default interface IProjectActions {
     addAssetToProjectWithoutAnalyze(project: IProject, fileName: string, buffer: Buffer): Promise<IAsset>;
     deleteAsset(project: IProject, assetMetadata: IAssetMetadata): Promise<void>;
     loadAssets(project: IProject): Promise<IAsset[]>;
+    loadAssets1(project: IProject): Promise<IAsset[]>;
     refreshAsset(project: IProject, assetName: string): Promise<void>;
     loadAssetMetadata(project: IProject, asset: IAsset): Promise<IAssetMetadata>;
     saveAssetMetadata(project: IProject, assetMetadata: IAssetMetadata): Promise<IAssetMetadata>;
@@ -283,7 +284,56 @@ export function loadAssets(project: IProject): (dispatch: Dispatch, getState: ()
         return returnData;
     };
 }
+export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
+    
+    return async (dispatch: Dispatch, getState: () => IApplicationState) => {
+        console.log('I am here')
+        // const client_id = cookie.load('client_id');
+        const response = await fetch(`http://52.88.170.55/Invoices/ocrGetInvoices.json?client_id=1`);
+         const data = await response.json();
+        console.log('data>>>',data.data)
+        const assets = data.data.map((obj)=>{
+            console.log('obj',obj);
+            return {
+                "format":"pdf",
+                "id":obj.invoice_id,
+                "mimeType":"application/pdf",
+                "name":obj.file_url,
+                "path":obj.file_url,
+                "state":1,
+                "type":5
+            }
+            // return obj.file_url;
+        });
 
+        // const assetService = new AssetService(project);
+        // const assets = await assetService.getAssets();
+        console.log('assets',assets);
+        let shouldAssetsUpdate = false;
+        for (const asset of assets) {
+            if (AssetService.shouldSchemaUpdate(asset.schema)) {
+                shouldAssetsUpdate = true;
+                asset.schema = constants.labelsSchema;
+            }
+        }
+        if (!areAssetsEqual(assets, project.assets)) {
+            dispatch(loadProjectAssetsAction(assets));
+        }
+        if (shouldAssetsUpdate) {
+            const { currentProject } = getState();
+            await AssetService.checkAndUpdateSchema(currentProject);
+        }
+        const returnData:any = [];
+        // if(filteredData.length>0){
+        // assets.map((asset) => {
+        //     if(filteredData.includes(asset.name)){
+        //         returnData.push(asset);
+        //     }
+        // });
+        // }
+        return assets;
+    };
+}
 function areAssetsEqual(assets: IAsset[], projectAssets: { [index: string]: IAsset }): boolean {
     const keys = Object.keys(projectAssets || {});
     if (assets.length !== keys.length) {

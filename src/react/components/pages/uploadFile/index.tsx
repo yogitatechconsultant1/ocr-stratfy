@@ -22,7 +22,7 @@ const UploadFile: FC<Props> = () => {
     const history = useHistory();
   
     const uploadFileToBlob = async (file:any, filename:string) => {
-        console.log('filePath',filename)
+        // console.log('filePath',filename)
     if (!file) return [];
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
