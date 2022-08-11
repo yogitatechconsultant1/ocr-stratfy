@@ -297,14 +297,14 @@ export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: (
         const data = await response.json();
         const fileList = [];
         // uploadFileToBlob('https://dashboard.stratafyconnect.com/uploads/invoice/invoices_913122702.pdf','invoices_913122702.pdf')
-        await Promise.all(data.data.map(async (file) => {
-            console.log('file',file);
+            await Promise.all(data.data.map(async (file) => {
+            
             const contentType = 'application/pdf';
-            const blob = b64toBlob(file.file_string, contentType);
-            const name = `${file.invoice_id}-${new Date().getTime()}-${file.filename}`;
-            const uploadInfo = await uploadFileToBlob(blob,name);
+            const blob = await b64toBlob(file.file_string, contentType);
+            const name = `${file.filename}`;
+            await uploadFileToBlob(blob,name);
             // const blobUrl = URL.createObjectURL(blob);
-            console.log('uploadInfo',uploadInfo)
+
             // fileList.push({
             //     "format":"pdf",
             //     "id":name,
@@ -324,7 +324,6 @@ export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: (
         const assetService = new AssetService(project);
         const assets = await assetService.getAssets();
         let shouldAssetsUpdate = false;
-        console.log('here>>',assets);
         for (const asset of assets) {
             if (AssetService.shouldSchemaUpdate(asset.schema)) {
                 shouldAssetsUpdate = true;
@@ -343,7 +342,6 @@ export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: (
         assets.map((asset) => {
             
             if(fileList.includes(asset.name)){
-                console.log(asset.name)
                 returnData.push(asset);
             }
         });
@@ -736,7 +734,7 @@ export const deleteProjectTagAction =
 
 
   const uploadFileToBlob = async (file:any, filename:string) => {
-        // console.log('filePath',filename)
+       
     if (!file) return [];
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
@@ -747,13 +745,11 @@ export const deleteProjectTagAction =
     const containerClient = blobService.getContainerClient(containerName);
     //const blobName = new Date().getTime()+filename;
     const blockBlobClient = containerClient.getBlockBlobClient(filename);
-    console.log('createBlockBlobFromText',blockBlobClient);
+   
     try{
         // const uploadBlobResponse = await blockBlobClient.uploadData(file);
         const uploadBlobResponse = await blockBlobClient.uploadData(file);
-        console.log('uploadBlobResponse',uploadBlobResponse)
-        // const uploadedFileUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
-        return uploadBlobResponse;
+       return uploadBlobResponse;
     }catch(e){
         console.log('e',e)
     }

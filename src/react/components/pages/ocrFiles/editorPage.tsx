@@ -226,12 +226,12 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
 
         return (
             <div className="editor-page skipToMainContent" id="pageEditor">
-                {this.state.tableToView !== null &&
+                {/* {this.state.tableToView !== null &&
                     <TableView
                         handleTableViewClose={this.handleTableViewClose}
                         tableToView={this.state.tableToView}
                     />
-                }
+                } */}
                 {
                     tagIndexKeys.map((index) =>
                     (<KeyboardBinding
@@ -270,7 +270,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                                 }
                             </PrimaryButton>
                         </div>}
-                        <EditorSideBar
+                        {/* <EditorSideBar
                             history={this.props.history}
                             actions={this.props.actions}
                             project={this.props.project}
@@ -281,7 +281,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                             onAssetLoaded={this.onAssetLoaded}
                             thumbnailSize={this.state.thumbnailSize}
                             loadProjectAssets={this.loadProjectAssets}
-                        />
+                        /> */}
 
                     </div>
                     <div className="editor-page-content" onClick={this.onPageClick}>
