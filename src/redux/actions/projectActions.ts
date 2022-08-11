@@ -32,6 +32,11 @@ import _ from "lodash";
 import { decryptProject } from "../../common/utils";
 import { constants } from "../../common/constants";
 import ServerApisHelper from "../../services/serverApisHelper";
+import atob from "atob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+const sasToken = process.env.storagesastoken || "?sp=racwdli&st=2022-07-06T17:43:57Z&se=2023-01-01T01:43:57Z&spr=https&sv=2021-06-08&sr=c&sig=HzRU7WDlxq02jMR4K%2FOIlX94sSHtrxODgLPrns4RJzA%3D";
+const containerName = `test`;
+const storageAccountName = process.env.storageresourcename || "stratfy01";
 
 /**
  * Actions to be performed in relation to projects
@@ -284,32 +289,42 @@ export function loadAssets(project: IProject): (dispatch: Dispatch, getState: ()
         return returnData;
     };
 }
-export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
-    
-    return async (dispatch: Dispatch, getState: () => IApplicationState) => {
-        console.log('I am here')
-        // const client_id = cookie.load('client_id');
-        const response = await fetch(`http://52.88.170.55/Invoices/ocrGetInvoices.json?client_id=1`);
-         const data = await response.json();
-        console.log('data>>>',data.data)
-        const assets = data.data.map((obj)=>{
-            console.log('obj',obj);
-            return {
-                "format":"pdf",
-                "id":obj.invoice_id,
-                "mimeType":"application/pdf",
-                "name":obj.file_url,
-                "path":obj.file_url,
-                "state":1,
-                "type":5
-            }
-            // return obj.file_url;
-        });
 
+export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
+    return async (dispatch: Dispatch, getState: () => IApplicationState) => {
+        const client_id = cookie.load('client_id');
+       const response = await fetch(`https://dashboard.stratafyconnect.com/Invoices/ocrGetInvoices.json?client_id=1`);
+        const data = await response.json();
+        const fileList = [];
+        // uploadFileToBlob('https://dashboard.stratafyconnect.com/uploads/invoice/invoices_913122702.pdf','invoices_913122702.pdf')
+        await Promise.all(data.data.map(async (file) => {
+            console.log('file',file);
+            const contentType = 'application/pdf';
+            const blob = b64toBlob(file.file_string, contentType);
+            const name = `${file.invoice_id}-${new Date().getTime()}-${file.filename}`;
+            const uploadInfo = await uploadFileToBlob(blob,name);
+            // const blobUrl = URL.createObjectURL(blob);
+            console.log('uploadInfo',uploadInfo)
+            // fileList.push({
+            //     "format":"pdf",
+            //     "id":name,
+            //     "mimeType":"application/pdf",
+            //     "name":name,
+            //     "path":uploadInfo,
+            //     "size":null,
+            //     "state":1,
+            //     "type":5
+            // })
+            fileList.push(name);
+           
+        })
+        );
         // const assetService = new AssetService(project);
-        // const assets = await assetService.getAssets();
-        console.log('assets',assets);
+        //const assets = fileList;
+        const assetService = new AssetService(project);
+        const assets = await assetService.getAssets();
         let shouldAssetsUpdate = false;
+        console.log('here>>',assets);
         for (const asset of assets) {
             if (AssetService.shouldSchemaUpdate(asset.schema)) {
                 shouldAssetsUpdate = true;
@@ -324,16 +339,20 @@ export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: (
             await AssetService.checkAndUpdateSchema(currentProject);
         }
         const returnData:any = [];
-        // if(filteredData.length>0){
-        // assets.map((asset) => {
-        //     if(filteredData.includes(asset.name)){
-        //         returnData.push(asset);
-        //     }
-        // });
-        // }
-        return assets;
+        if(fileList.length>0){
+        assets.map((asset) => {
+            
+            if(fileList.includes(asset.name)){
+                console.log(asset.name)
+                returnData.push(asset);
+            }
+        });
+        }
+ 
+        return returnData;
     };
 }
+
 function areAssetsEqual(assets: IAsset[], projectAssets: { [index: string]: IAsset }): boolean {
     const keys = Object.keys(projectAssets || {});
     if (assets.length !== keys.length) {
@@ -694,3 +713,48 @@ export const updatedAssetMetadataAction =
  */
 export const deleteProjectTagAction =
     createPayloadAction<IDeleteProjectTagAction>(ActionTypes.DELETE_PROJECT_TAG_SUCCESS);
+
+    const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+
+  const uploadFileToBlob = async (file:any, filename:string) => {
+        // console.log('filePath',filename)
+    if (!file) return [];
+
+    // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
+    const blobService = new BlobServiceClient(
+        `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+    // get Container - full public read access
+    const containerClient = blobService.getContainerClient(containerName);
+    //const blobName = new Date().getTime()+filename;
+    const blockBlobClient = containerClient.getBlockBlobClient(filename);
+    console.log('createBlockBlobFromText',blockBlobClient);
+    try{
+        // const uploadBlobResponse = await blockBlobClient.uploadData(file);
+        const uploadBlobResponse = await blockBlobClient.uploadData(file);
+        console.log('uploadBlobResponse',uploadBlobResponse)
+        // const uploadedFileUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
+        return uploadBlobResponse;
+    }catch(e){
+        console.log('e',e)
+    }
+    };
