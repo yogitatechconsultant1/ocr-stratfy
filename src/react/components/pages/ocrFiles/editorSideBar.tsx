@@ -63,8 +63,8 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
 
         return (
             <div className="editor-page-sidebar-nav">
-                <TrainButton project={this.props.project} actions={this.props.actions} />
-              <PrimaryButton
+                {/* <TrainButton project={this.props.project} actions={this.props.actions} /> */}
+              {/* <PrimaryButton
                     // style={{ "margin": "15px 0px" }}
                     id="train_trainButton"
                     theme={getPrimaryGreenTheme()}
@@ -75,7 +75,7 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
                     <FontIcon iconName="Upload" />
                     <h6 className="d-inline text-shadow-none mb-0">
                         {strings.train.uploadButtonLabel} </h6>
-                </PrimaryButton>
+                </PrimaryButton> */}
                 <AutoSizer>
                     {({ height, width }) => (
                         <List

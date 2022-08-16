@@ -28,7 +28,7 @@ export function MainContentRouter() {
         <div className="app-content text-light">
             <Switch>
                 <Route path="/" exact component={Login} />
-                <Route path="/ocrFiles" exact component={ocrPage} />
+                <Route path="/ocrFiles/:customer_id" exact component={ocrPage} />
                  <Route path="/uploadFile" exact component={UploadFile} />
                  <Route path="/ocr" exact component={EditorPage} />
                 <Route path="/settings" component={AppSettingsPage} />

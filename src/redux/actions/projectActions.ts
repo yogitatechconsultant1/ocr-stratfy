@@ -51,7 +51,7 @@ export default interface IProjectActions {
     addAssetToProjectWithoutAnalyze(project: IProject, fileName: string, buffer: Buffer): Promise<IAsset>;
     deleteAsset(project: IProject, assetMetadata: IAssetMetadata): Promise<void>;
     loadAssets(project: IProject): Promise<IAsset[]>;
-    loadAssets1(project: IProject): Promise<IAsset[]>;
+    loadAssets1(project: IProject, customer_id:any): Promise<IAsset[]>;
     refreshAsset(project: IProject, assetName: string): Promise<void>;
     loadAssetMetadata(project: IProject, asset: IAsset): Promise<IAssetMetadata>;
     saveAssetMetadata(project: IProject, assetMetadata: IAssetMetadata): Promise<IAssetMetadata>;
@@ -290,10 +290,10 @@ export function loadAssets(project: IProject): (dispatch: Dispatch, getState: ()
     };
 }
 
-export function loadAssets1(project: IProject): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
+export function loadAssets1(project: IProject, customer_id:any): (dispatch: Dispatch, getState: () => IApplicationState) => Promise<IAsset[]> {
     return async (dispatch: Dispatch, getState: () => IApplicationState) => {
         const client_id = cookie.load('client_id');
-       const response = await fetch(`https://dashboard.stratafyconnect.com/Invoices/ocrGetInvoices.json?client_id=1`);
+       const response = await fetch(`https://dashboard.stratafyconnect.com/Invoices/ocrGetInvoices.json?client_id=${customer_id}`);
         const data = await response.json();
         const fileList = [];
         // uploadFileToBlob('https://dashboard.stratafyconnect.com/uploads/invoice/invoices_913122702.pdf','invoices_913122702.pdf')

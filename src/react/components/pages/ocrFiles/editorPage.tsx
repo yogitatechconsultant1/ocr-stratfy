@@ -4,7 +4,7 @@
 import _ from "lodash";
 import React, { RefObject } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useParams } from "react-router-dom";
 import SplitPane from "react-split-pane";
 import { bindActionCreators } from "redux";
 import { PrimaryButton } from "@fluentui/react";
@@ -105,6 +105,7 @@ export interface IEditorPageState {
     pageNumber: number;
     highlightedTableCellRegions: ITableRegion[];
     stopAPICall?:boolean;
+    customer_id?:number
 }
 
 function mapStateToProps(state: IApplicationState) {
@@ -129,6 +130,7 @@ function mapDispatchToProps(dispatch) {
  */
 @connect(mapStateToProps, mapDispatchToProps)
 export default class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
+    
     public state: IEditorPageState = {
         selectedTag: null,
         lockedTags: [],
@@ -146,7 +148,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         selectedTableTagBody: [[]],
         pageNumber: 1,
         highlightedTableCellRegions: null,
-        stopAPICall:false
+        stopAPICall:false,
+        customer_id: 1,
     };
 
     private tagInputRef: RefObject<TagInput>;
@@ -164,15 +167,20 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
     private isUnmount: boolean = false;
     public initialRightSplitPaneWidth: number;
     private isOCROrAutoLabelingBatchRunning = false;
+    public urlParams:any = this.props.match.params;
+   
 
     constructor(props) {
         super(props);
         this.tagInputRef = React.createRef();
+         this.state.customer_id = this.urlParams.customer_id || 1;
     }
 
     public async componentDidMount() {
         window.addEventListener("focus", this.onFocused);
-
+        
+        
+        //this.setState({customer_id:customer_id})
         this.isUnmount = false;
         this.isOCROrAutoLabelingBatchRunning = false;
         const projectId = this.props.match.params["projectId"] ?? "ookC0C0ix";
@@ -251,7 +259,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                     onChange={this.onSideBarResize}
                     onDragFinished={this.onSideBarResizeComplete}>
                     <div className="editor-page-sidebar bg-lighter-1">
-                        {needRunOCRButton && <div>
+                        {/* {needRunOCRButton && <div>
                             <PrimaryButton
                                 theme={getPrimaryGreenTheme()}
                                 className="editor-page-sidebar-run-ocr"
@@ -269,8 +277,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                                     </div> : "Run Layout on unvisited documents"
                                 }
                             </PrimaryButton>
-                        </div>}
-                        {/* <EditorSideBar
+                        </div>} */}
+                        <EditorSideBar
                             history={this.props.history}
                             actions={this.props.actions}
                             project={this.props.project}
@@ -281,7 +289,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                             onAssetLoaded={this.onAssetLoaded}
                             thumbnailSize={this.state.thumbnailSize}
                             loadProjectAssets={this.loadProjectAssets}
-                        /> */}
+                        />
 
                     </div>
                     <div className="editor-page-content" onClick={this.onPageClick}>
@@ -938,13 +946,14 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
     }
 
     private loadProjectAssets = async (): Promise<void> => {
-       console.log('inside state. stopAPICall',this.state.stopAPICall);
+       
+    //    console.log('inside state. stopAPICall',this.state.customer_id);
         if (this.state.stopAPICall) {
             return;
         }
 
         this.setState({stopAPICall:true},()=>{
-            console.log('stopAPICall',this.state.stopAPICall)
+            console.log('stopAPICall',this.state.customer_id)
         });
         const replacer = (key, value) => {
             if (key === "cachedImage") {
@@ -956,7 +965,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         }
         try {
             
-            const assets = _(await this.props.actions.loadAssets1(this.props.project))
+            const assets = _(await this.props.actions.loadAssets1(this.props.project, this.state.customer_id))
                 .uniqBy((asset) => asset.id)
                 .value();
 

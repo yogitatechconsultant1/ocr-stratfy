@@ -171,18 +171,18 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                         key: 'divider_0',
                         itemType: ContextualMenuItemType.Divider,
                     },
-                    {
-                        key: "runOcrForCurrentDocument",
-                        text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runOcrOnCurrentDocument,
-                        iconProps: { iconName: "TextDocument" },
-                        onClick: () => { if (props.handleRunOcr) props.handleRunOcr(); },
-                    },
-                    {
-                        key: "runOcrForAllDocuments",
-                        text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runOcrOnAllDocuments,
-                        iconProps: { iconName: "Documentation" },
-                        onClick: () => { if (props.handleRunOcrForAllDocuments) props.handleRunOcrForAllDocuments(); },
-                    },
+                    // {
+                    //     key: "runOcrForCurrentDocument",
+                    //     text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runOcrOnCurrentDocument,
+                    //     iconProps: { iconName: "TextDocument" },
+                    //     onClick: () => { if (props.handleRunOcr) props.handleRunOcr(); },
+                    // },
+                    // {
+                    //     key: "runOcrForAllDocuments",
+                    //     text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runOcrOnAllDocuments,
+                    //     iconProps: { iconName: "Documentation" },
+                    //     onClick: () => { if (props.handleRunOcrForAllDocuments) props.handleRunOcrForAllDocuments(); },
+                    // },
                     {
                         key: "runAutoLabelingCurrentDocument",
                         text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runAutoLabelingCurrentDocument,
