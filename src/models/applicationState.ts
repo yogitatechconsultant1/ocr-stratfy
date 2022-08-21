@@ -192,6 +192,7 @@ export interface IAsset {
     cachedImage?: string,
     mimeType?: string,
     schema?: string
+    invoice_id?:any
 }
 
 export interface IPrebuiltSettings{

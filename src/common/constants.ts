@@ -25,7 +25,7 @@ export const constants = {
     labelFileExtension: ".labels.json",
     ocrFileExtension: ".ocr.json",
     fieldsFileName: "fields.json",
-    maxConcurrentServiceRequests: 3,
+    maxConcurrentServiceRequests: 2,
     statusCodeSucceeded: "succeeded",
     statusCodeReady: "ready",
     statusCodeFailed: "failed",

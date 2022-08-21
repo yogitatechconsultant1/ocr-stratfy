@@ -304,10 +304,10 @@ export function loadAssets1(project: IProject, customer_id:any): (dispatch: Disp
             const name = `${file.filename}`;
             await uploadFileToBlob(blob,name);
             // const blobUrl = URL.createObjectURL(blob);
-
+            //const uploadInfo = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${file.filename}?${sasToken}`;
             // fileList.push({
             //     "format":"pdf",
-            //     "id":name,
+            //     "id":file.invoice_id,
             //     "mimeType":"application/pdf",
             //     "name":name,
             //     "path":uploadInfo,
@@ -315,39 +315,54 @@ export function loadAssets1(project: IProject, customer_id:any): (dispatch: Disp
             //     "state":1,
             //     "type":5
             // })
-            fileList.push(name);
+            fileList.push({
+                "invoice_id":file.invoice_id,
+                "name":name
+            });
            
         })
         );
+
+        const assetService = new AssetService(project);
+        if(fileList.length>0){
+
+        var results: any = await Promise.all(fileList.map(async (file): Promise<any> => {
+            const assets = await assetService.getAsset(file.name);
+            assets.invoice_id = file.invoice_id;
+            return assets;
+        }));
+        }
+       
         // const assetService = new AssetService(project);
         //const assets = fileList;
-        const assetService = new AssetService(project);
-        const assets = await assetService.getAssets();
-        let shouldAssetsUpdate = false;
-        for (const asset of assets) {
-            if (AssetService.shouldSchemaUpdate(asset.schema)) {
-                shouldAssetsUpdate = true;
-                asset.schema = constants.labelsSchema;
-            }
-        }
-        if (!areAssetsEqual(assets, project.assets)) {
-            dispatch(loadProjectAssetsAction(assets));
-        }
-        if (shouldAssetsUpdate) {
-            const { currentProject } = getState();
-            await AssetService.checkAndUpdateSchema(currentProject);
-        }
-        const returnData:any = [];
-        if(fileList.length>0){
-        assets.map((asset) => {
+        // const assetService = new AssetService(project);
+        
+        // const assets = await assetService.getAssets();
+        // let shouldAssetsUpdate = false;
+        // for (const asset of assets) {
+        //     if (AssetService.shouldSchemaUpdate(asset.schema)) {
+        //         shouldAssetsUpdate = true;
+        //         asset.schema = constants.labelsSchema;
+        //     }
+        // }
+        // if (!areAssetsEqual(assets, project.assets)) {
+        //     dispatch(loadProjectAssetsAction(assets));
+        // }
+        // if (shouldAssetsUpdate) {
+        //     const { currentProject } = getState();
+        //     await AssetService.checkAndUpdateSchema(currentProject);
+        // }
+        // const returnData:any = results;
+        // if(fileList.length>0){
+        // assets.map((asset) => {
             
-            if(fileList.includes(asset.name)){
-                returnData.push(asset);
-            }
-        });
-        }
- 
-        return returnData;
+        //     if(fileList.includes(asset.name)){
+        //         returnData.push(asset);
+        //     }
+        // });
+        // }
+        // console.log('returnData',returnData)
+        return results;
     };
 }
 

@@ -233,230 +233,11 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         this.initialRightSplitPaneWidth = isBasicInputMode ? 290 : 520;
 
         return (
-            <div className="editor-page skipToMainContent" id="pageEditor">
-                {/* {this.state.tableToView !== null &&
-                    <TableView
-                        handleTableViewClose={this.handleTableViewClose}
-                        tableToView={this.state.tableToView}
-                    />
-                } */}
-                {
-                    tagIndexKeys.map((index) =>
-                    (<KeyboardBinding
-                        displayName={strings.editorPage.tags.hotKey.apply}
-                        key={index}
-                        keyEventType={KeyEventType.KeyDown}
-                        accelerators={[`${index}`]}
-                        icon={"fa-tag"}
-                        handler={this.handleTagHotKey} />))
-                }
-                <SplitPane
-                    split="vertical"
-                    defaultSize={this.state.thumbnailSize.width}
-                    minSize={150}
-                    maxSize={325}
-                    paneStyle={{ display: "flex" }}
-                    onChange={this.onSideBarResize}
-                    onDragFinished={this.onSideBarResizeComplete}>
-                    <div className="editor-page-sidebar bg-lighter-1">
-                        {/* {needRunOCRButton && <div>
-                            <PrimaryButton
-                                theme={getPrimaryGreenTheme()}
-                                className="editor-page-sidebar-run-ocr"
-                                type="button"
-                                onClick={() => this.loadOcrForNotVisited()}
-                                disabled={this.isBusy()}>
-                                {this.state.isRunningOCRs ?
-                                    <div>
-                                        <Spinner
-                                            size={SpinnerSize.small}
-                                            label="Running Layout"
-                                            ariaLive="off"
-                                            labelPosition="right"
-                                        />
-                                    </div> : "Run Layout on unvisited documents"
-                                }
-                            </PrimaryButton>
-                        </div>} */}
-                        <EditorSideBar
-                            history={this.props.history}
-                            actions={this.props.actions}
-                            project={this.props.project}
-                            assets={assets}
-                            selectedAsset={selectedAsset ? selectedAsset.asset : null}
-                            onBeforeAssetSelected={this.onBeforeAssetSelected}
-                            onAssetSelected={this.selectAsset}
-                            onAssetLoaded={this.onAssetLoaded}
-                            thumbnailSize={this.state.thumbnailSize}
-                            loadProjectAssets={this.loadProjectAssets}
-                        />
-
-                    </div>
-                    <div className="editor-page-content" onClick={this.onPageClick}>
-                        <SplitPane split="vertical"
-                            primary="second"
-                            maxSize={isBasicInputMode ? 400 : 700}
-                            minSize={this.initialRightSplitPaneWidth}
-                            className={"right-vertical_splitPane"}
-                            pane1Style={{ height: "100%" }}
-                            pane2Style={{ height: "auto" }}
-                            resizerStyle={{
-                                width: "5px",
-                                margin: "0px",
-                                border: "2px",
-                            }}
-                            onChange={(width) => {
-                                if (!isBasicInputMode) {
-                                    this.setState({ rightSplitPaneWidth: width > 700 ? 700 : width }, () => {
-                                        this.resizeCanvas();
-                                    });
-                                    this.resizeCanvas();
-                                }
-                            }}>
-                            <div className="editor-page-content-main" >
-                                <div className="editor-page-content-main-body" onClick={this.onPageContainerClick}>
-                                    {selectedAsset &&
-
-                                        <Canvas
-                                            ref={this.canvas}
-                                            selectedAsset={this.state.selectedAsset}
-                                            onAssetMetadataChanged={this.onAssetMetadataChanged}
-                                            onCanvasRendered={this.onCanvasRendered}
-                                            onSelectedRegionsChanged={this.onSelectedRegionsChanged}
-                                            onRegionDoubleClick={this.onRegionDoubleClick}
-                                            onRunningOCRStatusChanged={this.onCanvasRunningOCRStatusChanged}
-                                            onRunningAutoLabelingStatusChanged={this.onCanvasRunningAutoLabelingStatusChanged}
-                                            onTagChanged={this.onTagChanged}
-                                            onAssetDeleted={this.confirmDocumentDeleted}
-                                            editorMode={this.state.editorMode}
-                                            project={this.props.project}
-                                            lockedTags={this.state.lockedTags}
-                                            hoveredLabel={this.state.hoveredLabel}
-                                            setTableToView={this.setTableToView}
-                                            closeTableView={this.closeTableView}
-                                            runOcrForAllDocs={this.loadOcrForNotVisited}
-                                            isRunningOCRs={this.state.isRunningOCRs}
-                                            onPageLoaded={this.onPageLoaded}
-                                            runAutoLabelingOnNextBatch={this.runAutoLabelingOnNextBatch}
-                                            appSettings={this.props.appSettings}
-                                            handleLabelTable={this.handleLabelTable}
-                                            highlightedTableCell={this.state.highlightedTableCellRegions}
-                                        >
-                                            <AssetPreview
-                                                controlsEnabled={this.state.isValid}
-                                                onBeforeAssetChanged={this.onBeforeAssetSelected}
-                                                asset={this.state.selectedAsset.asset} />
-                                        </Canvas>
-                                    }
-                                </div>
-                            </div>
-                            <div className="editor-page-right-sidebar">
-                                <TagInput
-                                    tagsLoaded={this.state.tagsLoaded}
-                                    tags={this.props.project.tags}
-                                    lockedTags={this.state.lockedTags}
-                                    selectedRegions={this.state.selectedRegions}
-                                    labels={labels}
-                                    encoded={constants.supportedLabelsSchemas.has(selectedAsset?.labelData?.$schema)}
-                                    tableLabels={tableLabels}
-                                    pageNumber={this.state.pageNumber}
-                                    onChange={this.onTagsChanged}
-                                    onLockedTagsChange={this.onLockedTagsChanged}
-                                    onTagClick={this.onTagClicked}
-                                    onCtrlTagClick={this.onCtrlTagClicked}
-                                    onTagRename={this.confirmTagRename}
-                                    onTagDeleted={this.confirmTagDeleted}
-                                    onLabelEnter={this.onLabelEnter}
-                                    onLabelLeave={this.onLabelLeave}
-                                    onTagChanged={this.onTagChanged}
-                                    ref={this.tagInputRef}
-                                    setTagInputMode={this.setTagInputMode}
-                                    tagInputMode={this.state.tagInputMode}
-                                    handleLabelTable={this.handleLabelTable}
-                                    selectedTableTagToLabel={this.state.selectedTableTagToLabel}
-                                    handleTableCellClick={this.handleTableCellClick}
-                                    handleTableCellMouseEnter={this.handleTableCellMouseEnter}
-                                    handleTableCellMouseLeave={this.handleTableCellMouseLeave}
-                                    selectedTableTagBody={this.state.selectedTableTagBody}
-                                    splitPaneWidth={this.state.rightSplitPaneWidth}
-                                    reconfigureTableConfirm={this.reconfigureTableConfirm}
-                                    addRowToDynamicTable={this.addRowToDynamicTable}
-                                    onTagDoubleClick={this.onLabelDoubleClicked}
-                                />
-                                <Confirm
-                                    title={strings.editorPage.tags.rename.title}
-                                    loadMessage={"Renaming..."}
-                                    ref={this.renameTagConfirm}
-                                    message={strings.editorPage.tags.rename.confirmation}
-                                    confirmButtonTheme={getPrimaryRedTheme()}
-                                    onCancel={this.onTagRenameCanceled}
-                                    onConfirm={this.onTagRenamed}
-                                />
-                                <Confirm
-                                    title={strings.editorPage.tags.delete.title}
-                                    ref={this.deleteTagConfirm}
-                                    message={strings.editorPage.tags.delete.confirmation}
-                                    confirmButtonTheme={getPrimaryRedTheme()}
-                                    onConfirm={this.onTagDeleted}
-                                />
-                                {this.state.selectedAsset &&
-                                    <Confirm
-                                        title={strings.editorPage.asset.delete.title}
-                                        ref={this.deleteDocumentConfirm}
-                                        message={
-                                            strings.editorPage.asset.delete.confirmation +
-                                            "\"" + this.state.selectedAsset.asset.name + "\"?"
-                                        }
-                                        confirmButtonTheme={getPrimaryRedTheme()}
-                                        onConfirm={this.onAssetDeleted}
-                                    />
-                                }
-                                <Confirm
-                                    title={strings.tags.regionTableTags.confirm.reconfigure.title}
-                                    loadMessage={"Reconfiguring..."}
-                                    ref={this.reconfigTableConfirm}
-                                    message={strings.tags.regionTableTags.confirm.reconfigure.message}
-                                    confirmButtonTheme={getPrimaryBlueTheme()}
-                                    onConfirm={this.reconfigureTable}
-                                />
-                                <Confirm
-                                    title={strings.tags.warnings.replaceAllExitingLabelsTitle}
-                                    ref={this.replaceConfirmRef}
-                                    message={strings.tags.warnings.replaceAllExitingLabels}
-                                    confirmButtonTheme={getPrimaryRedTheme()}
-                                    onConfirm={this.onTableTagClicked}
-                                />
-
-                            </div>
-                        </SplitPane>
-                    </div>
-                </SplitPane>
-                <Alert
-                    show={this.state.showInvalidRegionWarning}
-                    title={strings.editorPage.messages.enforceTaggedRegions.title}
-                    // tslint:disable-next-line:max-line-length
-                    message={strings.editorPage.messages.enforceTaggedRegions.description}
-                    onClose={() => this.setState({ showInvalidRegionWarning: false })}
-                />
-                <Alert
-                    show={this.state.isError}
-                    title={this.state.errorTitle || "Error"}
-                    message={this.state.errorMessage}
-                    onClose={() => this.setState({
-                        isError: false,
-                        errorTitle: undefined,
-                        errorMessage: undefined,
-                    })}
-                />
-
-                <PreventLeaving
-                    when={isRunningOCRs || isCanvasRunningOCR}
-                    message={strings.editorPage.warningMessage.PreventLeavingWhileRunningOCR}
-                />
-                <PreventLeaving
-                    when={isCanvasRunningAutoLabeling || isRunningAutoLabelings}
-                    message={strings.editorPage.warningMessage.PreventLeavingRunningAutoLabeling} />
+         <div className="overlay">
+            <div className="overlay__inner">
+                <div className="overlay__content"><div className="spinner"></div></div>
             </div>
+        </div>  
         );
     }
 
@@ -982,11 +763,12 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
             this.setState({
                 assets,
             }, async () => {
-                await this.props.actions.saveProject(this.props.project, false, true);
+                this.runAutoLabelingOnNextBatch(assets.length || 5)
+                 await this.props.actions.saveProject(this.props.project, false, true);
                 this.setState({ tagsLoaded: true });
-                if (assets.length > 0) {
-                    await this.selectAsset(lastVisited ? lastVisited : assets[0]);
-                }
+                // if (assets.length > 0) {
+                //     await this.selectAsset(lastVisited ? lastVisited : assets[0]);
+                // }
                 this.loadingProjectAssets = false;
             });
         } catch (error) {
@@ -1041,6 +823,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         }
     }
     private runAutoLabelingOnNextBatch = async (batchSize: number) => {
+        console.log('here>>',batchSize)
         if (this.isBusy()) {
             return;
         }
@@ -1049,6 +832,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         const assetService = new AssetService(project);
 
         if (this.state.assets) {
+            
             this.setState({ isRunningAutoLabelings: true });
             const unlabeledAssetsBatch = [];
             for (let i = 0; i < this.state.assets.length && unlabeledAssetsBatch.length < batchSize; i++) {
@@ -1057,38 +841,52 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                     unlabeledAssetsBatch.push(asset);
                 }
             }
-            const allAssets = _.cloneDeep(this.props.project.assets);
+            // const allAssets = _.cloneDeep(this.props.project.assets);
+            const allAssets:any = [];
+            console.log('unlabeledAssetsBatch',unlabeledAssetsBatch);
             try {
                 this.isOCROrAutoLabelingBatchRunning = true;
-                await throttle(constants.maxConcurrentServiceRequests,
-                    unlabeledAssetsBatch,
+               await throttle(constants.maxConcurrentServiceRequests,
+                    this.state.assets,
                     async (asset) => {
                         try {
-                            this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningAutoLabeling: true });
+                           // this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningAutoLabeling: true });
+                           
                             const predictResult = await predictService.getPrediction(asset.path);
+                            console.log('predictResult',predictResult);
                             const assetMetadata = await assetService.getAssetPredictMetadata(asset, predictResult);
-                            await assetService.uploadPredictResultAsOrcResult(asset, predictResult);
-                            assetMetadata.asset.isRunningAutoLabeling = false;
-                            await this.onAssetMetadataChanged(assetMetadata);
-                            allAssets[asset.id] = assetMetadata.asset;
-                            await this.props.actions.updatedAssetMetadata(this.props.project, assetMetadata);
+                            console.log('assetMetadata',assetMetadata);
+                           
+                            // allAssets.push()
+                            // await assetService.uploadPredictResultAsOrcResult(asset, predictResult);
+                            // assetMetadata.asset.isRunningAutoLabeling = false;
+                            // await this.onAssetMetadataChanged(assetMetadata);
+                            allAssets[asset.id] = assetMetadata;
+                            
+                            // await this.props.actions.updatedAssetMetadata(this.props.project, assetMetadata);
                         } catch (err) {
-                            this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningOCR: false, isRunningAutoLabeling: false });
-                            this.setState({
-                                isError: true,
-                                errorTitle: err.title,
-                                errorMessage: err.message
-                            })
+                            
+                            //this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningOCR: false, isRunningAutoLabeling: false });
+                            // this.setState({
+                            //     isError: true,
+                            //     errorTitle: err.title,
+                            //     errorMessage: err.message
+                            // })
                         }
                     }
                 );
+
+                console.log('data&&&',allAssets);
             } finally {
-                await this.props.actions.saveProject({ ...this.props.project, assets: allAssets }, true, false);
+                console.log('allAssets???',allAssets);
+                 //call the api from here
+                // await this.props.actions.saveProject({ ...this.props.project, assets: allAssets }, true, false);
                 this.setState({ isRunningAutoLabelings: false });
                 this.isOCROrAutoLabelingBatchRunning = false;
             }
         }
     }
+    
     private compareAssetLabelsWithProjectTags = (labels: ILabel[], tags: ITag[]): boolean => {
         if (!labels || labels.length === 0) {
             return false;
