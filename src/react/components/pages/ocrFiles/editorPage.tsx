@@ -40,6 +40,7 @@ import { toast } from "react-toastify";
 import { PredictService } from "../../../../services/predictService";
 import { AssetService } from "../../../../services/assetService";
 import clone from "rfdc";
+import Progressbar from 'react-js-progressbar';
 
 /**
  * Properties for Editor Page
@@ -106,6 +107,7 @@ export interface IEditorPageState {
     highlightedTableCellRegions: ITableRegion[];
     stopAPICall?:boolean;
     customer_id?:number
+    percentage:number;
 }
 
 function mapStateToProps(state: IApplicationState) {
@@ -150,6 +152,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         highlightedTableCellRegions: null,
         stopAPICall:false,
         customer_id: 1,
+        percentage:0
     };
 
     private tagInputRef: RefObject<TagInput>;
@@ -235,7 +238,19 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         return (
          <div className="overlay">
             <div className="overlay__inner">
-                <div className="overlay__content"><div className="spinner"></div></div>
+                <div className="overlay__content">
+                <Progressbar
+                input={this.state.percentage}
+                pathWidth={5}
+                pathColor={['#56ab2f', '#a8e063']} // use an array for gradient color.
+                trailWidth={20}
+                trailColor='#808080' // use a string for solid color.
+                textStyle={{ fill: '#009c1a','fontSize': '10px' }} // middle text style
+                customText={this.state.percentage <= 0 ? "Reading Files..." : `${this.state.percentage}%` }
+                >
+               
+        </Progressbar>
+                </div>
             </div>
         </div>  
         );
@@ -853,16 +868,40 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                            // this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningAutoLabeling: true });
                            
                             const predictResult = await predictService.getPrediction(asset.path);
-                            console.log('predictResult',predictResult);
+                            
                             const assetMetadata = await assetService.getAssetPredictMetadata(asset, predictResult);
-                            console.log('assetMetadata',assetMetadata);
+                            
                            
                             // allAssets.push()
                             // await assetService.uploadPredictResultAsOrcResult(asset, predictResult);
                             // assetMetadata.asset.isRunningAutoLabeling = false;
                             // await this.onAssetMetadataChanged(assetMetadata);
-                            allAssets[asset.id] = assetMetadata;
+
+                            const obj = {    
+                                "invoice_id":assetMetadata.asset.invoice_id,
+                                "building_number":'',
+                                "ABN":'',
+                                "invoice_number":'',
+                                "total_amount":'',
+                                "tax_amount":'',
+                                "invoice_date":'',
+                                "due_date":'',
+                                "bpay_reference":'',
+                                "customer_reference_number":'',
+                                "biller_code":'',
+                                "description":''
+                            }
+
+                            const labelData:any = {};
+                            assetMetadata.labelData.labels.map((label)=>{
+                               labelData[label.label] = label.value === undefined ? '' :   label.value[0].text;
+                            });
+                            delete labelData.Table;
+                           
+                            allAssets.push({...obj, ...labelData});
+                           const calculatePercentage = (allAssets.length/this.state.assets.length)*100 ;
                             
+                            this.setState({percentage: calculatePercentage < 100 ? calculatePercentage : 99})
                             // await this.props.actions.updatedAssetMetadata(this.props.project, assetMetadata);
                         } catch (err) {
                             
@@ -876,13 +915,41 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                     }
                 );
 
-                console.log('data&&&',allAssets);
+             
             } finally {
-                console.log('allAssets???',allAssets);
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({response: allAssets})
+                    };
+
+        fetch(`https://dashboard.stratafyconnect.com/Invoices/storeOcrInvoicesData/${this.state.customer_id}.json`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+           
+            if(data.status === 0){
+                 toast.error('Something went wrong. Please try again later !!');
+                 window.location.replace(data.redirect_url);
+            }
+             if(data.status === 1){
+                toast.success(data.message);
+                // this.props.history.push(data.redirect_url);
+                window.location.replace(data.redirect_url);
+            }
+        }
+          
+        ).catch((error) => {
+            console.log(error);
+            toast.error("Something went wrong please try again later.");
+        });
+
                  //call the api from here
                 // await this.props.actions.saveProject({ ...this.props.project, assets: allAssets }, true, false);
-                this.setState({ isRunningAutoLabelings: false });
-                this.isOCROrAutoLabelingBatchRunning = false;
+                // this.setState({ isRunningAutoLabelings: false });
+                // this.isOCROrAutoLabelingBatchRunning = false;
             }
         }
     }
