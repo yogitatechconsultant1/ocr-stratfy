@@ -189,7 +189,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         if (this.props.project) {
            
             if (this.state.assets.length === 0) {
-                await this.loadProjectAssets();
+                console.log('I am incomponentDidUpdate ')
+                // await this.loadProjectAssets();
             } else {
                 this.updateAssetsState();
             }
@@ -1193,6 +1194,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
     }
     private onFocused = () => {
         if (!this.isOCROrAutoLabelingBatchRunning) {
+            console.log('I am here')
             this.loadProjectAssets();
         }
     }
