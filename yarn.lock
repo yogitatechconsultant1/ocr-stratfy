@@ -2130,6 +2130,11 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@ramonak/react-progress-bar@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/@ramonak/react-progress-bar/-/react-progress-bar-5.0.2.tgz#743a3f325b85822a9f51d1f3849d85b4b95e3b8f"
+  integrity sha512-0NBYTe8x3L8svLTUeK7DBE4xzG/XRZ72uJmOMnWfzdSag32F1JE92IARFZyunEmFjc06U00tGfB+CekelrrYHw==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -5028,6 +5033,11 @@ core-js@^2.4.0, core-js@^2.5.7, core-js@^2.6.5, core-js@~2.6.5:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
+
+core-js@^3.24.1:
+  version "3.24.1"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.24.1.tgz#cf7724d41724154010a6576b7b57d94c5d66e64f"
+  integrity sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"

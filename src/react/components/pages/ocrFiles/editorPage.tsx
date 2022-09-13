@@ -41,7 +41,7 @@ import { PredictService } from "../../../../services/predictService";
 import { AssetService } from "../../../../services/assetService";
 import clone from "rfdc";
 import Progressbar from 'react-js-progressbar';
-
+import base64 from 'base-64';
 /**
  * Properties for Editor Page
  * @member project - Project being edited
@@ -176,7 +176,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
     constructor(props) {
         super(props);
         this.tagInputRef = React.createRef();
-         this.state.customer_id = this.urlParams.customer_id || 1;
+         this.state.customer_id = base64.decode(base64.decode(this.urlParams.customer_id)) || 1;
     }
 
     public async componentDidMount() {
