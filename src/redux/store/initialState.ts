@@ -315,6 +315,7 @@ const initialState: IApplicationState = {
         assets: {},
         lastVisitedAssetId:
             "64daffd22b6c3adccf22c4990d9177b134a447ab363e5f051481771aac3688e7",
+            
         recentModelRecords: [
             {
                 modelInfo: {

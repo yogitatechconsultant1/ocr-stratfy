@@ -1267,14 +1267,13 @@ export default class EditorPage extends React.Component<
                                         ans += label.value[key].text + " ";
                                     }
                                     labelData[label.label] = ans;
-                                    console.log(ans);
                                 }
                             });
 
                             delete labelData.Table;
 
                             allAssets.push({ ...obj, ...labelData });
-                            console.log(allAssets);
+                           // console.log(allAssets);
 
                             const calculatePercentage =
                                 (allAssets.length / this.state.assets.length) *
@@ -1282,11 +1281,11 @@ export default class EditorPage extends React.Component<
 
                             this.setState({
                                 percentage:
-                                    calculatePercentage < 100
-                                        ? calculatePercentage
+                                    Math.round(calculatePercentage) < 100
+                                        ? Math.round(calculatePercentage)
                                         : 99,
                             });
-                            console.log("res", allAssets);
+                        // 
                             // await this.props.actions.updatedAssetMetadata(this.props.project, assetMetadata);
                         } catch (err) {
                             //this.updateAssetOCRAndAutoLabelingState({ id: asset.id, isRunningOCR: false, isRunningAutoLabeling: false });
@@ -1323,7 +1322,7 @@ export default class EditorPage extends React.Component<
                         if (data.status === 1) {
                             toast.success(data.message);
                             // this.props.history.push(data.redirect_url);
-                             window.location.replace(data.redirect_url);
+                            window.location.replace(data.redirect_url);
                         }
                     })
                     .catch((error) => {

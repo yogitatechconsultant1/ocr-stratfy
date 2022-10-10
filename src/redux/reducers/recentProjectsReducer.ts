@@ -23,6 +23,7 @@ export const reducer = (state: IProject[] = [], action: AnyAction): IProject[] =
 
     switch (action.type) {
         case ActionTypes.LOAD_PROJECT_SUCCESS:
+            return[ {...action.payload}]
         case ActionTypes.SAVE_PROJECT_SUCCESS:
             return [
                 { ...action.payload },
