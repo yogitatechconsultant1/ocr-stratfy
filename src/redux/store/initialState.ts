@@ -14,6 +14,17 @@ import {
  * @member recentProjects - Recent projects
  * @member currentProject - Current project
  */
+const modelId = "b94d874b-5349-405b-8477-6106cc22bef5";
+var newModelId;
+export function model() {
+    newModelId = localStorage.getItem("predictModelId");
+}
+model();
+newModelId =
+    localStorage.getItem("predictModelId") == undefined
+        ? modelId
+        : localStorage.getItem("predictModelId").substring(1, 37);
+
 const initialState: IApplicationState = {
     appSettings: {
         securityTokens: [
@@ -159,140 +170,9 @@ const initialState: IApplicationState = {
             assets: {},
             lastVisitedAssetId:
                 "64daffd22b6c3adccf22c4990d9177b134a447ab363e5f051481771aac3688e7",
-            recentModelRecords: [
-                {
-                    modelInfo: {
-                        modelName: "",
-                        modelId: "600b2b2c-9c61-4a8a-8074-5f4c51ed4984",
-                        createdDateTime: "2022-06-02T15:48:37Z",
-                        isComposed: false,
-                    },
-                    averageAccuracy: 0.381,
-                    accuracies: {
-                        ABN: 0.556,
-                        Table: 0,
-                        "Table: Description": 0,
-                        "Table: Price": 0,
-                        "Table: quantity": 0,
-                        due_date: 0.222,
-                        invoice_date: 0.556,
-                        invoice_number: 0.611,
-                        tax: 0.278,
-                        total: 0.444,
-                    },
-                    //   "isComposed": false
-                },
-                {
-                    modelInfo: {
-                        modelName: "",
-                        modelId: "ee1ac8bf-6f67-44da-9ea7-6709a7d11ee3",
-                        createdDateTime: "2022-05-24T15:50:02Z",
-                        isComposed: false,
-                    },
-                    averageAccuracy: 0.381,
-                    accuracies: {
-                        ABN: 0.556,
-                        Table: 0,
-                        "Table: Description": 0,
-                        "Table: Price": 0,
-                        "Table: quantity": 0,
-                        due_date: 0.222,
-                        invoice_date: 0.556,
-                        invoice_number: 0.611,
-                        tax: 0.278,
-                        total: 0.444,
-                    },
-                    //   "isComposed": false
-                },
-                {
-                    modelInfo: {
-                        modelName: "",
-                        modelId: "205f5594-dc8c-4646-a425-d28521a4f788",
-                        createdDateTime: "2022-05-17T03:02:34Z",
-                        isComposed: false,
-                    },
-                    averageAccuracy: 0.381,
-                    accuracies: {
-                        ABN: 0.556,
-                        Table: 0,
-                        "Table: Description": 0,
-                        "Table: Price": 0,
-                        "Table: quantity": 0,
-                        due_date: 0.222,
-                        invoice_date: 0.556,
-                        invoice_number: 0.611,
-                        tax: 0.278,
-                        total: 0.444,
-                    },
-                    //   "isComposed": false
-                },
-                {
-                    modelInfo: {
-                        modelId: "a093ece7-9543-444d-a56f-b21c1831c59a",
-                        modelName: "",
-                        createdDateTime: "2022-05-06T23:59:59Z",
-                        isComposed: false,
-                    },
-                    averageAccuracy: 0.381,
-                    accuracies: {
-                        ABN: 0.556,
-                        Table: 0,
-                        "Table: Description": 0,
-                        "Table: Price": 0,
-                        "Table: quantity": 0,
-                        due_date: 0.222,
-                        invoice_date: 0.556,
-                        invoice_number: 0.611,
-                        tax: 0.278,
-                        total: 0.444,
-                    },
-                    //   "isComposed": false
-                },
-                {
-                    modelInfo: {
-                        modelId: "65b8c95e-b3ad-40e6-9b2c-7dc2b6b36395",
-                        createdDateTime: "2022-05-05T16:41:18Z",
-                        isComposed: false,
-                        modelName: "",
-                    },
-                    averageAccuracy: 0.349,
-                    accuracies: {
-                        ABN: 0.5,
-                        Table: 0,
-                        "Table: Description": 0,
-                        "Table: Price": 0,
-                        "Table: quantity": 0.111,
-                        due_date: 0.222,
-                        invoice_date: 0.5,
-                        invoice_number: 0.556,
-                        tax: 0.222,
-                        total: 0.444,
-                    },
-                    //   "isComposed": false
-                },
-            ],
-            trainRecord: {
-                modelInfo: {
-                    modelId: "da397593-afba-4e6f-8011-c1aa271e3c5a",
-                    modelName: "",
-                    createdDateTime: "2022-06-02T15:48:37Z",
-                    isComposed: false,
-                },
-                averageAccuracy: 0.381,
-                accuracies: {
-                    ABN: 0.556,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0,
-                    due_date: 0.222,
-                    invoice_date: 0.556,
-                    invoice_number: 0.611,
-                    tax: 0.278,
-                    total: 0.444,
-                },
-            },
-            predictModelId: "ee5bf0e1-611f-4363-9092-0bdcc0c436af",
+            recentModelRecords: [],
+
+            predictModelId: `${newModelId}`,
         },
     ],
     currentProject: {
@@ -313,143 +193,11 @@ const initialState: IApplicationState = {
         id: "ookC0C0ix",
         tags: [],
         assets: {},
-        lastVisitedAssetId:
-            "64daffd22b6c3adccf22c4990d9177b134a447ab363e5f051481771aac3688e7",
-            
-        recentModelRecords: [
-            {
-                modelInfo: {
-                    modelName: "",
-                    modelId: "f8c267ee-aae8-40c4-badc-9e8a929861b0",
-                    createdDateTime: "2022-06-02T15:48:37Z",
-                    isComposed: false,
-                },
-                averageAccuracy: 0.381,
-                accuracies: {
-                    ABN: 0.556,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0,
-                    due_date: 0.222,
-                    invoice_date: 0.556,
-                    invoice_number: 0.611,
-                    tax: 0.278,
-                    total: 0.444,
-                },
-                //   "isComposed": false
-            },
-            {
-                modelInfo: {
-                    modelName: "",
-                    modelId: "6cba96f7-d302-46f0-a740-c5e354f384cb",
-                    createdDateTime: "2022-05-24T15:50:02Z",
-                    isComposed: false,
-                },
-                averageAccuracy: 0.381,
-                accuracies: {
-                    ABN: 0.556,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0,
-                    due_date: 0.222,
-                    invoice_date: 0.556,
-                    invoice_number: 0.611,
-                    tax: 0.278,
-                    total: 0.444,
-                },
-                //   "isComposed": false
-            },
-            {
-                modelInfo: {
-                    modelName: "",
-                    modelId: "0763c72c-a7f1-4610-898c-e5d083059aa5",
-                    createdDateTime: "2022-05-17T03:02:34Z",
-                    isComposed: false,
-                },
-                averageAccuracy: 0.381,
-                accuracies: {
-                    ABN: 0.556,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0,
-                    due_date: 0.222,
-                    invoice_date: 0.556,
-                    invoice_number: 0.611,
-                    tax: 0.278,
-                    total: 0.444,
-                },
-                //   "isComposed": false
-            },
-            {
-                modelInfo: {
-                    modelId: "6b83e677-5376-4acf-9ea8-fff92126ee81",
-                    modelName: "",
-                    createdDateTime: "2022-05-06T23:59:59Z",
-                    isComposed: false,
-                },
-                averageAccuracy: 0.381,
-                accuracies: {
-                    ABN: 0.556,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0,
-                    due_date: 0.222,
-                    invoice_date: 0.556,
-                    invoice_number: 0.611,
-                    tax: 0.278,
-                    total: 0.444,
-                },
-                //   "isComposed": false
-            },
-            {
-                modelInfo: {
-                    modelId: "4db06c97-35d9-4979-afcb-387666422bc4",
-                    createdDateTime: "2022-05-05T16:41:18Z",
-                    isComposed: false,
-                    modelName: "",
-                },
-                averageAccuracy: 0.349,
-                accuracies: {
-                    ABN: 0.5,
-                    Table: 0,
-                    "Table: Description": 0,
-                    "Table: Price": 0,
-                    "Table: quantity": 0.111,
-                    due_date: 0.222,
-                    invoice_date: 0.5,
-                    invoice_number: 0.556,
-                    tax: 0.222,
-                    total: 0.444,
-                },
-                //   "isComposed": false
-            },
-        ],
-        trainRecord: {
-            modelInfo: {
-                modelId: "cdf9bf0f-6c36-4997-b87a-e9e92315b63a",
-                modelName: "",
-                createdDateTime: "2022-06-02T15:48:37Z",
-                isComposed: false,
-            },
-            averageAccuracy: 0.381,
-            accuracies: {
-                ABN: 0.556,
-                Table: 0,
-                "Table: Description": 0,
-                "Table: Price": 0,
-                "Table: quantity": 0,
-                due_date: 0.222,
-                invoice_date: 0.556,
-                invoice_number: 0.611,
-                tax: 0.278,
-                total: 0.444,
-            },
-        },
-        predictModelId: "cdf9bf0f-6c36-4997-b87a-e9e92315b63a",
+        lastVisitedAssetId: null,
+
+        recentModelRecords: [],
+        trainRecord: null,
+        predictModelId: `${newModelId}`,
     },
     appError: null,
     prebuiltSettings: null,
@@ -458,4 +206,5 @@ const initialState: IApplicationState = {
 /**
  * Instance of initial application state
  */
+
 export default initialState;

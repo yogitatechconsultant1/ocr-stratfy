@@ -411,9 +411,9 @@ export function loadAssets(
             `https://dashboard.stratafyconnect.com/Invoices/ocrGetUploadFiles.json?client_id=${client_id}`
         );
         const data = await response.json();
-        console.log("data", data.data);
+      
         const filteredData = data.data.map((obj) => {
-            console.log("obj", obj);
+           
             return obj.file_url;
         });
 
