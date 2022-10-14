@@ -1235,7 +1235,7 @@ export default class EditorPage extends React.Component<
 
                             const obj = {
                                 invoice_id: assetMetadata.asset.invoice_id,
-                                building_number: "",
+                                building_id: "",
                                 ABN: "",
                                 invoice_number: "",
                                 total_amount: "",
