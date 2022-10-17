@@ -1247,21 +1247,19 @@ export default class EditorPage extends React.Component<
                                 biller_code: "",
                                 description: "",
                             };
-                            const extractData = (props: any) => {
-                                const { value } = props;
-                                var ans = "";
-                                value.map((e) => {
-                                    ans += e.text;
-                                });
-                                return ans;
-                            };
+                            
                             const labelData: any = {};
                             assetMetadata.labelData.labels.map((label) => {
                                 if (label.value === undefined) {
                                     labelData[label.label] = "";
                                 } else {
                                     let ans = "";
+                                    let found =true;
                                     for (let key in label.value) {
+                                       if(label.value[0].text ==="Due" && found){
+                                        found =false;
+                                        continue;
+                                       }
                                         if (label.value[key].text === undefined)
                                             continue;
                                         ans += label.value[key].text + " ";
