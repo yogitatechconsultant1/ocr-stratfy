@@ -14,7 +14,7 @@ import {
  * @member recentProjects - Recent projects
  * @member currentProject - Current project
  */
-const modelId = "84563f64-ebc9-434f-8bc2-fdbe43db26ca";
+const modelId = "5cea17ff-cb88-4dd6-9064-8445e9709929";
 var newModelId;
 export function model() {
     newModelId = localStorage.getItem("predictModelId");
