@@ -13,7 +13,11 @@ import { ProtectedInput } from "../../common/protectedInput/protectedInput";
 import { CustomField } from "../../common/customField/customField";
 import { generateKey } from "../../../../common/crypto";
 import { PrimaryButton } from "@fluentui/react";
-import { getPrimaryGreenTheme, getPrimaryGreyTheme } from "../../../../common/themes";
+import "./appSettingsPage.scss";
+import {
+    getPrimaryGreenTheme,
+    getPrimaryGreyTheme,
+} from "../../../../common/themes";
 // tslint:disable-next-line:no-var-requires
 const formSchema = addLocValues(require("./appSettingsForm.json"));
 // tslint:disable-next-line:no-var-requires
@@ -32,7 +36,10 @@ export interface IAppSettingsFormState {
     loginSettings: ILoginSettings;
 }
 
-export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IAppSettingsFormState> {
+export class AppSettingsForm extends React.Component<
+    IAppSettingsFormProps,
+    IAppSettingsFormState
+> {
     private fields = {
         securityToken: CustomField(ProtectedInput, (props) => ({
             id: props.idSchema.$id,
@@ -67,8 +74,21 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
         return (
             <div className="app-settings-page-form p-3">
                 <h3 className="mb-3 flex-center">
-                    <FontIcon iconName="Settings" />
-                    <span className="px-2">{strings.login.title}</span>
+                    {/* <FontIcon iconName="Settings" /> */}
+                    <span
+                        style={{
+                            fontWeight: 800,
+                            fontSize: "47px",
+                            color: "#ffffff",
+                            fontFamily: "system-ui",
+                            fontStyle: "normal",
+                            marginTop: " -20px",
+                            marginLeft: "14px",
+                            marginBottom: "50px",
+                        }}
+                    >
+                        Application Login
+                    </span>
                 </h3>
                 <div className="m-3">
                     <Form
@@ -84,17 +104,15 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
                         schema={this.state.formSchema}
                         uiSchema={this.state.uiSchema}
                         formData={this.state.loginSettings}
-                        onSubmit={(form) => this.props.onSubmit(form.formData)}>
+                        onSubmit={(form) => this.props.onSubmit(form.formData)}
+                    >
                         <div>
-                            <PrimaryButton
-                                theme={getPrimaryGreenTheme()}
-                                className="mr-2"
-                                type="submit">
-                                {strings.login.save}
-                            </PrimaryButton>
+                            <button className="login-btn" type="submit">
+                                Sign In &#8594;
+                            </button>
                             {/* <PrimaryButton
                                 theme={getPrimaryGreyTheme()}
-                                type="button"
+                                type="button" 
                                 onClick={this.onFormCancel}>
                                 {strings.common.cancel}
                             </PrimaryButton> */}
@@ -105,9 +123,12 @@ export class AppSettingsForm extends React.Component<IAppSettingsFormProps, IApp
         );
     }
 
-    private onFormValidate(loginSettings: ILoginSettings, errors: FormValidation) {
+    private onFormValidate(
+        loginSettings: ILoginSettings,
+        errors: FormValidation
+    ) {
         const tokensMap = {};
-        console.log('loginSettings',loginSettings)
+        console.log("loginSettings", loginSettings);
         // loginSettings.loginCredentials.forEach((token, index) => {
         //     if (!token.name) {
         //         return;

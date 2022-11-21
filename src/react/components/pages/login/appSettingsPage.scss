@@ -1,14 +1,103 @@
 .app-settings-page {
     display: flex;
     flex-direction: row;
-    flex-grow: 1;
-    min-height: fit-content;
-    overflow-y: auto;
-    &-form {
-        flex-grow: 1;
-    }
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 406px;
+    height: 221px;
+    background: #282a37;
+    border-radius: 20px;
+    // &-form {
+    //     flex-grow: 1;
+    // }
 
-    &-sidebar {
-        flex-basis: 30vw;
+    // &-sidebar {
+    //     flex-basis: 30vw;
+    // }
+}
+.app-login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 706px;
+    margin-top: 100px;
+    align-self: center;
+    justify-self: center;
+}
+.app-login {
+    width: 706px;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    background: linear-gradient(0deg, #202128, #202128),
+        linear-gradient(0deg, #4a4e66, #4a4e66);
+    background: #202128;
+    border: 1px solid #4a4e66;
+    border-radius: 20px;
+    justify-content: center;
+    justify-content: center;
+    padding-top: 33px;
+    padding-left: 125px;
+    height: 621px;
+}
+body {
+    font-family: "Poppins", sans-serif;
+}
+.app-login-title {
+    text-align: center;
+}
+.form-group {
+    h4 {
+        display: none;
     }
+}
+.form-group {
+    input {
+        margin-top: 8px;
+        width: 400px;
+        height: 55px;
+        font-weight: 400;
+        font-size: 15px;
+
+        border: 1px solid #515151;
+        border-radius: 5px;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15px;
+
+        color: #ffffff;
+    }
+    p {
+    }
+    label {
+        margin-bottom: 30px;
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 22px;
+        /* identical to box height */
+
+        color: #a1a8b7;
+    }
+}
+.login-btn {
+    width: 400.58px;
+    height: 54px;
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+
+    color: #ffffff;
+    background: rgb(106, 150, 17);
+
+    border: none;
+    border-radius: 7px;
+}
+.field-description {
+}
+.login-btn:hover {
+    color: #ffffff;
+    background: rgba(120, 173, 14, 1);
 }

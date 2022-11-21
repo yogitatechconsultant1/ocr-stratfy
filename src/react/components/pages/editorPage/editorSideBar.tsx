@@ -3,7 +3,7 @@
 
 import React from "react";
 import { AutoSizer, List } from "react-virtualized";
-import { FontIcon,PrimaryButton } from "@fluentui/react";
+import { FontIcon, PrimaryButton } from "@fluentui/react";
 import { useHistory } from "react-router-dom";
 import { IAsset, AssetState, ISize, AssetLabelingState, IProject } from "../../../../models/applicationState";
 import { AssetPreview, ContentSource } from "../../common/assetPreview/assetPreview";

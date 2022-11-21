@@ -12,7 +12,7 @@ import { strings } from "../../../../common/strings";
 import { AppSettingsForm } from "./appSettingsForm";
 import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 
 /**
  * Props for App Settings Page
@@ -65,56 +65,59 @@ export default class AppSettingsPage extends React.Component<IAppSettingsProps> 
 
     public render() {
         return (
-            <div className="app-settings-page skipToMainContent" id="pageAppSettings">
-                <AppSettingsForm
-                    loginSettings={this.props.loginSettings}
-                    onSubmit={this.onFormSubmit}
-                    onCancel={this.onFormCancel} />
+            <div className="app-login-container" id="pageAppSettings">
+                <div className="app-login">
+                    <AppSettingsForm
+                        loginSettings={this.props.loginSettings}
+                        onSubmit={this.onFormSubmit}
+                        onCancel={this.onFormCancel}
+                    />
+                </div>
             </div>
         );
     }
 
     private async onFormSubmit(loginSettings: any) {
-        
-       
-        const {username, password} = loginSettings.loginFields[0];
-       
-        const requestOptions:any = {
-        method: 'POST',
-        headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-                },
-        referrer: "about:client", // "" for no-referrer, or an url from the current origin
-        referrerPolicy: "no-referrer", // no-referrer, origin, same-origin...
-        mode: "cors", // same-origin, no-cors
-        credentials: "same-origin", // omit, include
-        body: JSON.stringify({ username,password },)
-    };
+        const { username, password } = loginSettings.loginFields[0];
 
-        fetch('https://dashboard.stratafyconnect.com/Invoices/ocrLogin.json', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log('data',data);
-            if(data.status === 0){
-                console.log('toast',toast)
-                 toast.error('You are not authorized!!');
-            }
-             if(data.status === 1){
-                 console.log('client_id',data.client_id)
-                cookie.save('client_id', data.client_id, { path: '/' });
-                toast.success(strings.login.messages.saveSuccess);
-                this.props.history.push('/ocr');
-            }
-        }
-          
-        ).catch((error) => {
-            console.log(error);
-            toast.error("Something went wrong please try again later.");
-        });
+        const requestOptions: any = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            referrer: "about:client", // "" for no-referrer, or an url from the current origin
+            referrerPolicy: "no-referrer", // no-referrer, origin, same-origin...
+            mode: "cors", // same-origin, no-cors
+            credentials: "same-origin", // omit, include
+            body: JSON.stringify({ username, password }),
+        };
+
+        fetch(
+            "https://dashboard.stratafyconnect.com/Invoices/ocrLogin.json",
+            requestOptions
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("data", data);
+                if (data.status === 0) {
+                    console.log("toast", toast);
+                    toast.error("You are not authorized!!");
+                }
+                if (data.status === 1) {
+                    console.log("client_id", data.client_id);
+                    cookie.save("client_id", data.client_id, { path: "/" });
+                    toast.success(strings.login.messages.saveSuccess);
+                    this.props.history.push("/ocr");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                toast.error("Something went wrong please try again later.");
+            });
 
         // await this.props.actions.saveAppSettings(loginSettings);
-        
+
         // this.props.history.goBack();
     }
 
