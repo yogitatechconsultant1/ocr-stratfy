@@ -66,8 +66,7 @@ body {
         font-style: normal;
         font-weight: 400;
         font-size: 15px;
-
-        color: #ffffff;
+        color: black;
     }
     p {
     }
@@ -76,8 +75,6 @@ body {
         font-weight: 400;
         font-size: 15px;
         line-height: 22px;
-        /* identical to box height */
-
         color: #a1a8b7;
     }
 }
@@ -88,10 +85,8 @@ body {
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-
     color: #ffffff;
     background: rgb(106, 150, 17);
-
     border: none;
     border-radius: 7px;
 }

@@ -34,6 +34,7 @@ const UploadFile: FC<Props> = () => {
     const blobName = new Date().getTime()+filename;
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     try{
+
         const uploadBlobResponse = await blockBlobClient.uploadData(file);
         // const uploadedFileUrl = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}?${sasToken}`;
         saveFileToDatabase(blobName);
@@ -41,7 +42,9 @@ const UploadFile: FC<Props> = () => {
         // const test = await blockBlobClient.downloadToFile(blobName);
         // console.log('blockBlobClient>>',test);
     }catch(e){
+
         console.log('e',e)
+        
     }
     };
     const saveFileToDatabase = async(uploadedFile:string) =>{

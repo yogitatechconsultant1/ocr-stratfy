@@ -5,8 +5,17 @@ import React from "react";
 import { AutoSizer, List } from "react-virtualized";
 import { FontIcon, PrimaryButton } from "@fluentui/react";
 import { useHistory } from "react-router-dom";
-import { IAsset, AssetState, ISize, AssetLabelingState, IProject } from "../../../../models/applicationState";
-import { AssetPreview, ContentSource } from "../../common/assetPreview/assetPreview";
+import {
+    IAsset,
+    AssetState,
+    ISize,
+    AssetLabelingState,
+    IProject,
+} from "../../../../models/applicationState";
+import {
+    AssetPreview,
+    ContentSource,
+} from "../../common/assetPreview/assetPreview";
 import { strings } from "../../../../common/strings";
 import _ from "lodash";
 import TrainButton from "./trainButton";
@@ -14,7 +23,7 @@ import IProjectActions from "../../../../redux/actions/projectActions";
 import UploadButton from "./uploadFileButton";
 import { RouteComponentProps } from "react-router-dom";
 import { getPrimaryGreenTheme } from "../../../../common/themes";
-
+import { FaFileUpload } from "react-icons/fa";
 
 /**
  * Properties for Editor Side Bar
@@ -48,11 +57,18 @@ export interface IEditorSideBarState {
  * @name - Editor Side Bar
  * @description - Side bar for editor page
  */
-export default class EditorSideBar extends React.Component<IEditorSideBarProps, IEditorSideBarState> {
+export default class EditorSideBar extends React.Component<
+    IEditorSideBarProps,
+    IEditorSideBarState
+> {
+    constructor(props) {
+        super(props);
+    }
     public state: IEditorSideBarState = {
         scrollToIndex: this.props.selectedAsset
-            ? this.props.assets
-                .findIndex((asset) => asset.id === this.props.selectedAsset.id)
+            ? this.props.assets.findIndex(
+                  (asset) => asset.id === this.props.selectedAsset.id
+              )
             : 0,
     };
 
@@ -63,19 +79,61 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
 
         return (
             <div className="editor-page-sidebar-nav">
-                <TrainButton project={this.props.project} actions={this.props.actions} />
-              <PrimaryButton
-                    // style={{ "margin": "15px 0px" }}
-                    id="train_trainButton"
-                    theme={getPrimaryGreenTheme()}
-                    autoFocus={true}
-                    className="flex-center"
-                    onClick={() => this.props.history.push("/uploadFile")}
+                <TrainButton
+                    project={this.props.project}
+                    actions={this.props.actions}
+                />
+                <div
+                    style={{
+                        marginBottom: "12px",
+                        marginTop: "-6px",
+                        marginLeft: "-4px",
+                        display: "flex",
+                        alignSelf: "center",
+                        justifySelf: "center",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        gap: 10,
+                    }}
                 >
-                    <FontIcon iconName="Upload" />
-                    <h6 className="d-inline text-shadow-none mb-0">
-                        {strings.train.uploadButtonLabel} </h6>
-                </PrimaryButton>
+                    <PrimaryButton
+                        // style={{ "margin": "15px 0px" }}
+                        id="train_trainButton"
+                        style={{ width: "138px" }}
+                        theme={getPrimaryGreenTheme()}
+                        autoFocus={true}
+                        onClick={() => this.props.history.push("/uploadFile")}
+                    >
+                        <h6
+                            style={{
+                                padding: 3,
+                            }}
+                            className="d-inline text-shadow-none mb-0 flex-center"
+                        >
+                            Upload{" "}
+                            <FaFileUpload
+                                style={{ marginTop: "-2px", marginLeft: "4px" }}
+                            />
+                        </h6>
+                    </PrimaryButton>
+                    {/* <select
+                        style={{
+                            width: "138px",
+                            // backgroundColor: "rgb(120, 173, 14)",
+                            padding: "4px 18px",
+                            borderRadius: 3,
+                            fontFamily: "inherit",
+                            fontWeight: 580,
+                            fontSize: "0.9375rem",
+                        }}
+                        id="cars"
+                    >
+                        <option value="volvo">Unlabeld</option>
+                        <option value="saab">Trained</option>
+                        <option value="mercedes">UnTrained</option>
+                    </select> */}
+                </div>
                 <AutoSizer>
                     {({ height, width }) => (
                         <List
@@ -105,25 +163,32 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
             return;
         }
 
-        if ((!prevProps.selectedAsset && this.props.selectedAsset) ||
-            prevProps.selectedAsset.id !== this.props.selectedAsset.id) {
+        if (
+            (!prevProps.selectedAsset && this.props.selectedAsset) ||
+            prevProps.selectedAsset.id !== this.props.selectedAsset.id
+        ) {
             this.selectAsset(this.props.selectedAsset);
         }
     }
 
     private getRowHeight = (width: number) => {
         return width / (4 / 3) + 16;
-    }
+    };
 
     private selectAsset = (selectedAsset: IAsset): void => {
-        const scrollToIndex = this.props.assets.findIndex((asset) => asset.id === selectedAsset.id);
+        const scrollToIndex = this.props.assets.findIndex(
+            (asset) => asset.id === selectedAsset.id
+        );
 
-        this.setState({
-            scrollToIndex,
-        }, () => {
-            this.listRef.current.forceUpdateGrid();
-        });
-    }
+        this.setState(
+            {
+                scrollToIndex,
+            },
+            () => {
+                this.listRef.current.forceUpdateGrid();
+            }
+        );
+    };
 
     private onAssetClicked = (asset: IAsset): void => {
         if (this.props.onBeforeAssetSelected) {
@@ -134,7 +199,7 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
 
         this.selectAsset(asset);
         this.props.onAssetSelected(asset);
-    }
+    };
 
     private rowRenderer = ({ key, index, style }): JSX.Element => {
         // const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
@@ -143,77 +208,92 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
         const selectedAsset = this.props.selectedAsset;
 
         return (
-            <div key={asset.id} style={style} role="row"
+            <div
+                key={asset.id}
+                style={style}
+                role="row"
                 className={this.getAssetCssClassNames(asset, selectedAsset)}
-                onClick={() => this.onAssetClicked(asset)}>
+                onClick={() => this.onAssetClicked(asset)}
+            >
                 <div className="asset-item-image" role="gridcell">
                     {this.renderBadges(asset)}
-                    <AssetPreview asset={asset} onLoaded={this.props.onAssetLoaded} />
+                    <AssetPreview
+                        asset={asset}
+                        onLoaded={this.props.onAssetLoaded}
+                    />
                 </div>
                 <div className="asset-item-metadata" role="rowheader">
                     <span className="asset-filename" title={asset.name}>
-                        {asset.name.slice(asset.name.lastIndexOf("/") + 1, asset.name.length)}
+                        {asset.name.slice(
+                            asset.name.lastIndexOf("/") + 1,
+                            asset.name.length
+                        )}
                     </span>
-                    {asset.size &&
+                    {asset.size && (
                         <span>
                             {asset.size.width} x {asset.size.height}
                         </span>
-                    }
+                    )}
                 </div>
             </div>
         );
-    }
+    };
 
     private renderBadges = (asset: IAsset): JSX.Element => {
         const getBadgeTaggedClass = (state: AssetLabelingState): string => {
             return state ? `badge-tagged-${AssetLabelingState[state]}` : "";
         };
-        const getBadgeTaggedIcon=(labelingState:AssetLabelingState)=>{
-            switch(labelingState){
+        const getBadgeTaggedIcon = (labelingState: AssetLabelingState) => {
+            switch (labelingState) {
                 case AssetLabelingState.AutoLabeled:
-                    return(
-                        <FontIcon iconName="AutoEnhanceOn" />
-                    );
+                    return <FontIcon iconName="AutoEnhanceOn" />;
                 case AssetLabelingState.AutoLabeledAndAdjusted:
-                    return(
-                        <FontIcon iconName="AutoEnhanceOff" />
-                    );
+                    return <FontIcon iconName="AutoEnhanceOff" />;
                 case AssetLabelingState.Trained:
-                    return(
-                        <FontIcon iconName="MachineLearning" />
-                    );
+                    return <FontIcon iconName="MachineLearning" />;
                 default:
-                    return(
-                        <FontIcon iconName="Tag" />
-                    )
+                    return <FontIcon iconName="Tag" />;
             }
-        }
+        };
         switch (asset.state) {
             case AssetState.Tagged:
                 return (
-                    <span title={_.capitalize(_.lowerCase(AssetLabelingState[asset.labelingState]))}
-                        className={["badge", "badge-tagged", getBadgeTaggedClass(asset.labelingState)].join(" ")}>
+                    <span
+                        title={_.capitalize(
+                            _.lowerCase(AssetLabelingState[asset.labelingState])
+                        )}
+                        className={[
+                            "badge",
+                            "badge-tagged",
+                            getBadgeTaggedClass(asset.labelingState),
+                        ].join(" ")}
+                    >
                         {getBadgeTaggedIcon(asset.labelingState)}
                     </span>
                 );
             case AssetState.Visited:
                 return (
-                    <span title={strings.editorPage.visited}
-                        className="badge badge-visited">
+                    <span
+                        title={strings.editorPage.visited}
+                        className="badge badge-visited"
+                    >
                         <FontIcon iconName="View" />
                     </span>
                 );
             default:
                 return null;
         }
-    }
+    };
 
-    private getAssetCssClassNames = (asset: IAsset, selectedAsset: IAsset = null): string => {
+    private getAssetCssClassNames = (
+        asset: IAsset,
+        selectedAsset: IAsset = null
+    ): string => {
         const cssClasses = ["asset-item"];
         if (selectedAsset && selectedAsset.id === asset.id) {
             cssClasses.push("selected");
         }
 
         return cssClasses.join(" ");
-    }
+    };
 }

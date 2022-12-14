@@ -48,11 +48,16 @@ export interface IEditorSideBarState {
  * @name - Editor Side Bar
  * @description - Side bar for editor page
  */
-export default class EditorSideBar extends React.Component<IEditorSideBarProps, IEditorSideBarState> {
+export default class EditorSideBar extends React.Component<
+    IEditorSideBarProps,
+    IEditorSideBarState
+> {
+    
     public state: IEditorSideBarState = {
         scrollToIndex: this.props.selectedAsset
-            ? this.props.assets
-                .findIndex((asset) => asset.id === this.props.selectedAsset.id)
+            ? this.props.assets.findIndex(
+                  (asset) => asset.id === this.props.selectedAsset.id
+              )
             : 0,
     };
 
@@ -64,7 +69,7 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
         return (
             <div className="editor-page-sidebar-nav">
                 {/* <TrainButton project={this.props.project} actions={this.props.actions} /> */}
-              {/* <PrimaryButton
+                {/* <PrimaryButton
                     // style={{ "margin": "15px 0px" }}
                     id="train_trainButton"
                     theme={getPrimaryGreenTheme()}
@@ -105,25 +110,32 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
             return;
         }
 
-        if ((!prevProps.selectedAsset && this.props.selectedAsset) ||
-            prevProps.selectedAsset.id !== this.props.selectedAsset.id) {
+        if (
+            (!prevProps.selectedAsset && this.props.selectedAsset) ||
+            prevProps.selectedAsset.id !== this.props.selectedAsset.id
+        ) {
             this.selectAsset(this.props.selectedAsset);
         }
     }
 
     private getRowHeight = (width: number) => {
         return width / (4 / 3) + 16;
-    }
+    };
 
     private selectAsset = (selectedAsset: IAsset): void => {
-        const scrollToIndex = this.props.assets.findIndex((asset) => asset.id === selectedAsset.id);
+        const scrollToIndex = this.props.assets.findIndex(
+            (asset) => asset.id === selectedAsset.id
+        );
 
-        this.setState({
-            scrollToIndex,
-        }, () => {
-            this.listRef.current.forceUpdateGrid();
-        });
-    }
+        this.setState(
+            {
+                scrollToIndex,
+            },
+            () => {
+                this.listRef.current.forceUpdateGrid();
+            }
+        );
+    };
 
     private onAssetClicked = (asset: IAsset): void => {
         if (this.props.onBeforeAssetSelected) {
@@ -134,7 +146,7 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
 
         this.selectAsset(asset);
         this.props.onAssetSelected(asset);
-    }
+    };
 
     private rowRenderer = ({ key, index, style }): JSX.Element => {
         // const visitedAssets = this.props.assets.filter(asset => asset.state !== AssetState.Tagged)
@@ -143,77 +155,92 @@ export default class EditorSideBar extends React.Component<IEditorSideBarProps, 
         const selectedAsset = this.props.selectedAsset;
 
         return (
-            <div key={asset.id} style={style} role="row"
+            <div
+                key={asset.id}
+                style={style}
+                role="row"
                 className={this.getAssetCssClassNames(asset, selectedAsset)}
-                onClick={() => this.onAssetClicked(asset)}>
+                onClick={() => this.onAssetClicked(asset)}
+            >
                 <div className="asset-item-image" role="gridcell">
                     {this.renderBadges(asset)}
-                    <AssetPreview asset={asset} onLoaded={this.props.onAssetLoaded} />
+                    <AssetPreview
+                        asset={asset}
+                        onLoaded={this.props.onAssetLoaded}
+                    />
                 </div>
                 <div className="asset-item-metadata" role="rowheader">
                     <span className="asset-filename" title={asset.name}>
-                        {asset.name.slice(asset.name.lastIndexOf("/") + 1, asset.name.length)}
+                        {asset.name.slice(
+                            asset.name.lastIndexOf("/") + 1,
+                            asset.name.length
+                        )}
                     </span>
-                    {asset.size &&
+                    {asset.size && (
                         <span>
                             {asset.size.width} x {asset.size.height}
                         </span>
-                    }
+                    )}
                 </div>
             </div>
         );
-    }
+    };
 
     private renderBadges = (asset: IAsset): JSX.Element => {
         const getBadgeTaggedClass = (state: AssetLabelingState): string => {
             return state ? `badge-tagged-${AssetLabelingState[state]}` : "";
         };
-        const getBadgeTaggedIcon=(labelingState:AssetLabelingState)=>{
-            switch(labelingState){
+        const getBadgeTaggedIcon = (labelingState: AssetLabelingState) => {
+            switch (labelingState) {
                 case AssetLabelingState.AutoLabeled:
-                    return(
-                        <FontIcon iconName="AutoEnhanceOn" />
-                    );
+                    return <FontIcon iconName="AutoEnhanceOn" />;
                 case AssetLabelingState.AutoLabeledAndAdjusted:
-                    return(
-                        <FontIcon iconName="AutoEnhanceOff" />
-                    );
+                    return <FontIcon iconName="AutoEnhanceOff" />;
                 case AssetLabelingState.Trained:
-                    return(
-                        <FontIcon iconName="MachineLearning" />
-                    );
+                    return <FontIcon iconName="MachineLearning" />;
                 default:
-                    return(
-                        <FontIcon iconName="Tag" />
-                    )
+                    return <FontIcon iconName="Tag" />;
             }
-        }
+        };
         switch (asset.state) {
             case AssetState.Tagged:
                 return (
-                    <span title={_.capitalize(_.lowerCase(AssetLabelingState[asset.labelingState]))}
-                        className={["badge", "badge-tagged", getBadgeTaggedClass(asset.labelingState)].join(" ")}>
+                    <span
+                        title={_.capitalize(
+                            _.lowerCase(AssetLabelingState[asset.labelingState])
+                        )}
+                        className={[
+                            "badge",
+                            "badge-tagged",
+                            getBadgeTaggedClass(asset.labelingState),
+                        ].join(" ")}
+                    >
                         {getBadgeTaggedIcon(asset.labelingState)}
                     </span>
                 );
             case AssetState.Visited:
                 return (
-                    <span title={strings.editorPage.visited}
-                        className="badge badge-visited">
+                    <span
+                        title={strings.editorPage.visited}
+                        className="badge badge-visited"
+                    >
                         <FontIcon iconName="View" />
                     </span>
                 );
             default:
                 return null;
         }
-    }
+    };
 
-    private getAssetCssClassNames = (asset: IAsset, selectedAsset: IAsset = null): string => {
+    private getAssetCssClassNames = (
+        asset: IAsset,
+        selectedAsset: IAsset = null
+    ): string => {
         const cssClasses = ["asset-item"];
         if (selectedAsset && selectedAsset.id === asset.id) {
             cssClasses.push("selected");
         }
 
         return cssClasses.join(" ");
-    }
+    };
 }
