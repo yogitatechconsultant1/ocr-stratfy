@@ -31,6 +31,7 @@ Current Features of Labeling Tool: (you can view a short demo [here](https://you
 Form Labeling Tool requires [NodeJS (>= 10.x, Dubnium) and NPM](https://github.com/nodejs/Release)
 
    ```bash
+    use Node v16.17.1 
     git clone https://github.com/Microsoft/OCR-Form-Tools.git
     cd OCR-Form-Tools
     yarn install
