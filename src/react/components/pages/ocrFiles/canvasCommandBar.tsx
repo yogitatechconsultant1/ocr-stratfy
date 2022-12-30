@@ -2,12 +2,19 @@
 // Licensed under the MIT license.
 
 import * as React from "react";
-import { CommandBar, ICommandBarItemProps } from "@fluentui/react/lib/CommandBar";
+import {
+    CommandBar,
+    ICommandBarItemProps,
+} from "@fluentui/react/lib/CommandBar";
 import { ICustomizations, Customizer } from "@fluentui/react/lib/Utilities";
 import { getDarkGreyTheme } from "../../../../common/themes";
-import { strings } from '../../../../common/strings';
+import { strings } from "../../../../common/strings";
 import { ContextualMenuItemType } from "@fluentui/react";
-import { IProject, IAssetMetadata, AssetLabelingState } from "../../../../models/applicationState";
+import {
+    IProject,
+    IAssetMetadata,
+    AssetLabelingState,
+} from "../../../../models/applicationState";
 import _ from "lodash";
 import "./canvasCommandBar.scss";
 
@@ -32,7 +39,9 @@ interface ICanvasCommandBarProps {
     enableDrawRegion?: boolean;
 }
 
-export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> = (props: ICanvasCommandBarProps) => {
+export const CanvasCommandBar: React.FunctionComponent<
+    ICanvasCommandBarProps
+> = (props: ICanvasCommandBarProps) => {
     const dark: ICustomizations = {
         settings: {
             theme: getDarkGreyTheme(),
@@ -42,8 +51,14 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
     const disableAutoLabeling = !props.project?.predictModelId;
     let disableAutoLabelingCurrentAsset = disableAutoLabeling;
     if (!disableAutoLabeling) {
-        const labelingState = _.get(props.selectedAsset, "labelData.labelingState");
-        if (labelingState === AssetLabelingState.ManuallyLabeled || labelingState === AssetLabelingState.Trained) {
+        const labelingState = _.get(
+            props.selectedAsset,
+            "labelData.labelingState"
+        );
+        if (
+            labelingState === AssetLabelingState.ManuallyLabeled ||
+            labelingState === AssetLabelingState.Trained
+        ) {
             disableAutoLabelingCurrentAsset = true;
         }
     }
@@ -58,7 +73,8 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                 items: [
                     {
                         key: "text",
-                        text: strings.editorPage.canvas.canvasCommandBar.items.layers.subMenuItems.text,
+                        text: strings.editorPage.canvas.canvasCommandBar.items
+                            .layers.subMenuItems.text,
                         canCheck: true,
                         iconProps: { iconName: "TextField" },
                         isChecked: props.layers["text"],
@@ -66,7 +82,8 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                     },
                     {
                         key: "table",
-                        text: strings.editorPage.canvas.canvasCommandBar.items.layers.subMenuItems.tables,
+                        text: strings.editorPage.canvas.canvasCommandBar.items
+                            .layers.subMenuItems.tables,
                         canCheck: true,
                         iconProps: { iconName: "Table" },
                         isChecked: props.layers["tables"],
@@ -74,7 +91,8 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                     },
                     {
                         key: "selectionMark",
-                        text: strings.editorPage.canvas.canvasCommandBar.items.layers.subMenuItems.selectionMarks,
+                        text: strings.editorPage.canvas.canvasCommandBar.items
+                            .layers.subMenuItems.selectionMarks,
                         canCheck: true,
                         iconProps: { iconName: "CheckboxComposite" },
                         isChecked: props.layers["checkboxes"],
@@ -82,17 +100,19 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                     },
                     {
                         key: "DrawnRegions",
-                        text: strings.editorPage.canvas.canvasCommandBar.items.layers.subMenuItems.drawnRegions,
+                        text: strings.editorPage.canvas.canvasCommandBar.items
+                            .layers.subMenuItems.drawnRegions,
                         canCheck: true,
                         iconProps: { iconName: "FieldNotChanged" },
                         isChecked: props.layers["drawnRegions"],
                         className: props.drawRegionMode ? "disabled" : "",
                         onClick: () => props.handleLayerChange("drawnRegions"),
-                        disabled: props.drawRegionMode
+                        disabled: props.drawRegionMode,
                     },
                     {
                         key: "Label",
-                        text: strings.editorPage.canvas.canvasCommandBar.items.layers.subMenuItems.labels,
+                        text: strings.editorPage.canvas.canvasCommandBar.items
+                            .layers.subMenuItems.labels,
                         canCheck: true,
                         iconProps: { iconName: "Label" },
                         isChecked: props.layers["label"],
@@ -115,26 +135,36 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
             // }
         ];
         if (!props.enableDrawRegion) {
-            layerItem.subMenuProps.items = layerItem.subMenuProps.items.filter(item => item.key !== "DrawnRegions");
-            commandBarItems = [...commandBarItems.filter(item => item.key !== "drawRegion")];
+            layerItem.subMenuProps.items = layerItem.subMenuProps.items.filter(
+                (item) => item.key !== "DrawnRegions"
+            );
+            commandBarItems = [
+                ...commandBarItems.filter((item) => item.key !== "drawRegion"),
+            ];
         }
     }
 
     const commandBarFarItems: ICommandBarItemProps[] = [
         {
             key: "Rotate90CounterClockwise",
-            text: strings.editorPage.canvas.canvasCommandBar.farItems.rotate.counterClockwise,
+            text: strings.editorPage.canvas.canvasCommandBar.farItems.rotate
+                .counterClockwise,
             // This needs an ariaLabel since it's icon-only
-            ariaLabel: strings.editorPage.canvas.canvasCommandBar.farItems.rotate.counterClockwise,
+            ariaLabel:
+                strings.editorPage.canvas.canvasCommandBar.farItems.rotate
+                    .counterClockwise,
             iconOnly: true,
             iconProps: { iconName: "Rotate90CounterClockwise" },
             onClick: () => props.handleRotateImage(-90),
         },
         {
             key: "Rotate90Clockwise",
-            text: strings.editorPage.canvas.canvasCommandBar.farItems.rotate.clockwise,
+            text: strings.editorPage.canvas.canvasCommandBar.farItems.rotate
+                .clockwise,
             // This needs an ariaLabel since it's icon-only
-            ariaLabel: strings.editorPage.canvas.canvasCommandBar.farItems.rotate.clockwise,
+            ariaLabel:
+                strings.editorPage.canvas.canvasCommandBar.farItems.rotate
+                    .clockwise,
             iconOnly: true,
             iconProps: { iconName: "Rotate90Clockwise" },
             style: { marginRight: "1rem" },
@@ -142,33 +172,39 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
         },
         {
             key: "zoomOut",
-            text: strings.editorPage.canvas.canvasCommandBar.farItems.zoom.zoomOut,
+            text: strings.editorPage.canvas.canvasCommandBar.farItems.zoom
+                .zoomOut,
             // This needs an ariaLabel since it's icon-only
-            ariaLabel: strings.editorPage.canvas.canvasCommandBar.farItems.zoom.zoomOut,
+            ariaLabel:
+                strings.editorPage.canvas.canvasCommandBar.farItems.zoom
+                    .zoomOut,
             iconOnly: true,
             iconProps: { iconName: "ZoomOut" },
             onClick: () => props.handleZoomOut(),
         },
         {
             key: "zoomIn",
-            text: strings.editorPage.canvas.canvasCommandBar.farItems.zoom.zoomIn,
+            text: strings.editorPage.canvas.canvasCommandBar.farItems.zoom
+                .zoomIn,
             // This needs an ariaLabel since it's icon-only
-            ariaLabel: strings.editorPage.canvas.canvasCommandBar.farItems.zoom.zoomIn,
+            ariaLabel:
+                strings.editorPage.canvas.canvasCommandBar.farItems.zoom.zoomIn,
             iconOnly: true,
             iconProps: { iconName: "ZoomIn" },
             onClick: () => props.handleZoomIn(),
-        }
+        },
     ];
     if (props.showActionMenu) {
         commandBarFarItems.push({
             key: "additionalActions",
             text: "Actions",
-            title: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.text,
+            title: strings.editorPage.canvas.canvasCommandBar.farItems
+                .additionalActions.text,
             className: "additional-action-dropdown",
             subMenuProps: {
                 items: [
                     {
-                        key: 'divider_0',
+                        key: "divider_0",
                         itemType: ContextualMenuItemType.Divider,
                     },
                     // {
@@ -183,32 +219,52 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                     //     iconProps: { iconName: "Documentation" },
                     //     onClick: () => { if (props.handleRunOcrForAllDocuments) props.handleRunOcrForAllDocuments(); },
                     // },
-                    {
-                        key: "runAutoLabelingCurrentDocument",
-                        text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runAutoLabelingCurrentDocument,
-                        iconProps: { iconName: "Tag" },
-                        disabled: disableAutoLabelingCurrentAsset,
-                        title: props.project?.predictModelId ? "" :
-                            strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.noPredictModelOnProject,
-                        onClick: () => {
-                            if (props.handleRunAutoLabelingOnCurrentDocument) props.handleRunAutoLabelingOnCurrentDocument();
-                        },
-                        secondaryText: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.costWarningMessage,
-                        className: "cost-warning-message"
-                    },
-                    {
-                        key: "runAutoLabelingOnMultipleUnlabeledDocuments",
-                        text: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.runAutoLabelingOnMultipleUnlabeledDocuments,
-                        iconProps: { iconName: "Tag" },
-                        disabled: disableAutoLabeling,
-                        title: props.project?.predictModelId ? "" :
-                            strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.noPredictModelOnProject,
-                        onClick: () => {
-                            if (props.handleRunAutoLabelingOnMultipleUnlabeledDocuments) props.handleRunAutoLabelingOnMultipleUnlabeledDocuments();
-                        },
-                        secondaryText: strings.editorPage.canvas.canvasCommandBar.farItems.additionalActions.subIMenuItems.costWarningMessage,
-                        className: "cost-warning-message"
-                    },
+                    // {
+                    //     key: "runAutoLabelingCurrentDocument",
+                    //     text: strings.editorPage.canvas.canvasCommandBar
+                    //         .farItems.additionalActions.subIMenuItems
+                    //         .runAutoLabelingCurrentDocument,
+                    //     iconProps: { iconName: "Tag" },
+                    //     disabled: disableAutoLabelingCurrentAsset,
+                    //     title: props.project?.predictModelId
+                    //         ? ""
+                    //         : strings.editorPage.canvas.canvasCommandBar
+                    //               .farItems.additionalActions.subIMenuItems
+                    //               .noPredictModelOnProject,
+                    //     onClick: () => {
+                    //         if (props.handleRunAutoLabelingOnCurrentDocument)
+                    //             props.handleRunAutoLabelingOnCurrentDocument();
+                    //     },
+                    //     secondaryText:
+                    //         strings.editorPage.canvas.canvasCommandBar.farItems
+                    //             .additionalActions.subIMenuItems
+                    //             .costWarningMessage,
+                    //     className: "cost-warning-message",
+                    // },
+                    // {
+                    //     key: "runAutoLabelingOnMultipleUnlabeledDocuments",
+                    //     text: strings.editorPage.canvas.canvasCommandBar
+                    //         .farItems.additionalActions.subIMenuItems
+                    //         .runAutoLabelingOnMultipleUnlabeledDocuments,
+                    //     iconProps: { iconName: "Tag" },
+                    //     disabled: disableAutoLabeling,
+                    //     title: props.project?.predictModelId
+                    //         ? ""
+                    //         : strings.editorPage.canvas.canvasCommandBar
+                    //               .farItems.additionalActions.subIMenuItems
+                    //               .noPredictModelOnProject,
+                    //     onClick: () => {
+                    //         if (
+                    //             props.handleRunAutoLabelingOnMultipleUnlabeledDocuments
+                    //         )
+                    //             props.handleRunAutoLabelingOnMultipleUnlabeledDocuments();
+                    //     },
+                    //     secondaryText:
+                    //         strings.editorPage.canvas.canvasCommandBar.farItems
+                    //             .additionalActions.subIMenuItems
+                    //             .costWarningMessage,
+                    //     className: "cost-warning-message",
+                    // },
                     // {
                     //     key: 'divider_1',
                     //     itemType: ContextualMenuItemType.Divider,
@@ -221,7 +277,7 @@ export const CanvasCommandBar: React.FunctionComponent<ICanvasCommandBarProps> =
                     // }
                 ],
             },
-        })
+        });
     }
 
     return (
