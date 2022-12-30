@@ -465,7 +465,7 @@ export default class TrainButton extends React.Component<
         response: ITrainApiResponse
     ): ITrainRecordProps => {
         localStorage.setItem(
-            "predictNewModelId",
+            "predictNewModelId1",
             JSON.stringify(response["modelInfo"]["modelId"])
         );
         return {

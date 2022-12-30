@@ -14,16 +14,16 @@ import {
  * @member recentProjects - Recent projects
  * @member currentProject - Current project
  */
-const modelId = "7a78ffe8-1109-4d1f-b42b-d9b0f863fa9c";
+const modelId = "2fa1ed5c-5986-4ca7-b8ef-f49c2509a2ef";
 var newModelId;
 export function model() {
-    newModelId = localStorage.getItem("predictNewModelId");
+    newModelId = localStorage.getItem("predictNewModelId1");
 }
 model();
 newModelId =
-    localStorage.getItem("predictNewModelId") == undefined
+    localStorage.getItem("predictNewModelId1") == undefined
         ? modelId
-        : localStorage.getItem("predictNewModelId").substring(1, 37);
+        : localStorage.getItem("predictNewModelId1").substring(1, 37);
 const initialState: IApplicationState = {
     appSettings: {
         securityTokens: [
