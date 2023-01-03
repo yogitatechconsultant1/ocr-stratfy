@@ -37,7 +37,7 @@ const initialState: IApplicationState = {
     connections: [
         {
             providerOptions: {
-                sas: "https://stratfy01.blob.core.windows.net/test?sp=racwdl&st=2022-05-03T06:48:08Z&se=2031-07-11T14:48:08Z&spr=https&sv=2020-08-04&sr=c&sig=F1qgtRtfypyzUkF6dK43UG53jgUvKMdnR%2BjlrGi9IEA%3D",
+                sas: "https://stratfy01.blob.core.windows.net/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2030-05-31T15:59:47Z&st=2023-01-03T07:59:47Z&spr=https,http&sig=z%2BGM%2FU14wAG1uOGK9HxB14LM8huKSVXGOH5RZKTxBLo%3D",
             },
             id: "Qpi6oMgio",
             name: "Stratfy",
@@ -48,13 +48,13 @@ const initialState: IApplicationState = {
         {
             sourceConnection: {
                 providerOptions: {
-                    sas: "https://stratfy01.blob.core.windows.net/test?sp=racwdl&st=2022-05-03T06:48:08Z&se=2031-07-11T14:48:08Z&spr=https&sv=2020-08-04&sr=c&sig=F1qgtRtfypyzUkF6dK43UG53jgUvKMdnR%2BjlrGi9IEA%3D",
+                    sas: "https://stratfy01.blob.core.windows.net/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2030-05-31T15:59:47Z&st=2023-01-03T07:59:47Z&spr=https,http&sig=z%2BGM%2FU14wAG1uOGK9HxB14LM8huKSVXGOH5RZKTxBLo%3D",
                 },
                 id: "Qpi6oMgio",
                 name: "Stratfy",
                 providerType: "azureBlobStorage",
             },
-            apiKey: "f316231f6a9b4017af9c5a19a7070fbc",
+            apiKey: "60d6699076ca4ca98ebb6f1c920a1050",
             apiUriBase: "https://stratfy011.cognitiveservices.azure.com/",
             name: "Stratfy",
             folderPath: "",
@@ -183,7 +183,7 @@ const initialState: IApplicationState = {
             name: "Stratfy",
             providerType: "azureBlobStorage",
         },
-        apiKey: "f316231f6a9b4017af9c5a19a7070fbc",
+        apiKey: "60d6699076ca4ca98ebb6f1c920a1050",
         apiUriBase: "https://stratfy011.cognitiveservices.azure.com/",
         name: "Stratfy",
         folderPath: "",

@@ -6,7 +6,7 @@ import ProjectService from "../../services/projectService";
 import { ActionTypes } from "./actionTypes";
 import { AssetService } from "../../services/assetService";
 import cookie from "react-cookies";
-import axios from "axios"
+import axios from "axios";
 import {
     AppError,
     ErrorCode,
@@ -39,10 +39,9 @@ import { constants } from "../../common/constants";
 import ServerApisHelper from "../../services/serverApisHelper";
 import atob from "atob";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { key } from "localforage";
 const sasToken =
     process.env.storagesastoken ||
-    "?sp=racwdli&st=2022-07-06T17:43:57Z&se=2023-01-01T01:43:57Z&spr=https&sv=2021-06-08&sr=c&sig=HzRU7WDlxq02jMR4K%2FOIlX94sSHtrxODgLPrns4RJzA%3D";
+    "?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2030-05-31T15:59:47Z&st=2023-01-03T07:59:47Z&spr=https,http&sig=z%2BGM%2FU14wAG1uOGK9HxB14LM8huKSVXGOH5RZKTxBLo%3D";
 const containerName = `test`;
 const storageAccountName = process.env.storageresourcename || "stratfy01";
 
@@ -411,9 +410,8 @@ export function loadAssets(
             `https://dashboard.stratafyconnect.com/Invoices/ocrGetUploadFiles.json?client_id=${client_id}`
         );
         const data = await response.json();
-      
+
         const filteredData = data.data.map((obj) => {
-           
             return obj.file_url;
         });
 
@@ -444,27 +442,29 @@ export function loadAssets(
         return returnData;
     };
 }
-export const loadModalIds = async() => { {
- let key1 = "f316231f6a9b4017af9c5a19a7070fbc";
-  let key2 = "63709bcb01e843b7b1bb9b3867b6daf3";
-  const data = {
-    "Ocp-Apim-Subscription-Key": `${key1 ? key1 : key2}`
-  };
-  await axios({
-    url: 'https://westus2.api.cognitive.microsoft.com/formrecognizer/v2.1/custom/models?op=full',
-    method: 'get',
-    headers: {
-      "Ocp-Apim-Subscription-Key": `${key1 ? key1 : key2}`,
-        'Content-Type': 'application/json'
+export const loadModalIds = async () => {
+    {
+        let key1 = "f316231f6a9b4017af9c5a19a7070fbc";
+        let key2 = "63709bcb01e843b7b1bb9b3867b6daf3";
+        const data = {
+            "Ocp-Apim-Subscription-Key": `${key1 ? key1 : key2}`,
+        };
+        await axios({
+            url: "https://westus2.api.cognitive.microsoft.com/formrecognizer/v2.1/custom/models?op=full",
+            method: "get",
+            headers: {
+                "Ocp-Apim-Subscription-Key": `${key1 ? key1 : key2}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
- })
- .then(response => {
-    console.log(response)
- }) 
- .catch(err => {
-    console.log(err);
- });
-}}
+};
 export function loadAssets1(
     project: IProject,
     customer_id: any
